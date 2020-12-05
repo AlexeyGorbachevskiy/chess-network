@@ -1,0 +1,60 @@
++ * {
+    margin: 0;
+    padding: 0;
+}
+
+.posts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    /*168*/
+    max-height: calc(100vh - 220px);
+}
+
+
+.new_post {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.new_post_form {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.new_post_form h2 {
+    color: #000000;
+    font-family: -apple-system;
+    font-size: 35px;
+}
+
+/*.textarea {*/
+/*    word-break: break-word;*/
+/*    outline: none;*/
+/*    resize: none;*/
+/*    overflow: auto;*/
+/*}*/
+
+
+.new_post_button {
+    margin-top: 10px;
+    width: 75px;
+    height: 30px;
+    cursor: pointer;
+    background-color: #000000;
+    border-color: #000000;
+    color: #ffffff;
+    border-radius: 3px;
+    align-self: flex-end;
+    font-size: 16px;
+
+}
+
+.new_post_button:hover {
+    box-shadow: 0px 0px 5px 1px #00C;
+    opacity: 0.9;
+}
+
+

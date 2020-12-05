@@ -1,0 +1,12 @@
+.friends_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.friends_list {
+    display: grid;
+    width: 550px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+}

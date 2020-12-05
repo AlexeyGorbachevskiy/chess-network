@@ -1,0 +1,17 @@
+.input {
+    outline: none;
+    width: 215px;
+    height: 18px;
+    margin-left: 3px;
+}
+
+.status_text {
+    border-bottom: 3px solid #f84545;
+    display: inline-block;
+    margin-left: 3px;
+}
+
+.status_text:hover {
+    background-color: #f84545;
+    border-radius: 4px;
+}

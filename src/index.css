@@ -1,0 +1,122 @@
+
+html{
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-size: 16px;
+  color: black;
+  /*overflow-wrap: break-word;*/
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+#table{
+  background: rgb(209, 139, 71);
+  border: 1px solid black;
+  float: left;
+  margin: 10px;
+}
+
+.rotated {
+  transform: rotateX(180deg);
+}
+
+.menu-icon {
+  position: absolute;
+  top: auto!important;
+  right: 0;
+
+  margin: 2px;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+#table tr:nth-child(odd) td:nth-child(odd){
+  background: rgb(255, 206, 158);
+}
+
+#table tr:nth-child(even) td:nth-child(even){
+  background: rgb(255, 206, 158);
+}
+
+#table tr:nth-child(even) td:nth-child(odd) {
+  background: rgb(209, 139, 71);
+}
+
+#table tr:nth-child(odd) td:nth-child(even) {
+  background: rgb(209, 139, 71);
+}
+
+#table td{
+  cursor: pointer;
+  border: 1px solid gray;
+  width: 12.5%;
+  height: 12.5%;
+  text-align: center;
+}
+
+#playContainer #table .selected {
+  background: brown;
+  color: lightblue;
+}
+
+#playContainer #table .validMoves {
+  background: red;
+}
+
+#playContainer #table td {
+  -webkit-transition: background-color 355ms linear, color 360ms ease-in;
+  -moz-transition: background-color 355ms linear, color 360ms ease-in;
+  -o-transition: background-color 355ms linear, color 360ms ease-in;
+  -ms-transition: background-color 355ms linear, color 360ms ease-in;
+  transition: background-color 355ms linear, color 360ms ease-in;
+}
+
+#down{
+  position: relative;
+  left: 10px;
+  top: -17px;
+  width: 500px;
+}
+
+.down {
+  width: 12.5%;
+  font-size: 25px;
+  text-align: center;
+}
+
+#right {
+  position: relative;
+  left: 10px;
+  top: 10px;
+  height: 500px;
+}
+
+
+.right {
+  height: 12.5%;
+  font-size: 25px;
+}
+
+table, .no-selection {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

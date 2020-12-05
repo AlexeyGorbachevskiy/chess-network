@@ -1,0 +1,64 @@
+.data_wrapper {
+    display: grid;
+    /*background-color: #000000;*/
+    /*opacity: 0.7;*/
+    background: rgba(0, 0, 0, 0.7);
+    grid-template: "ava data" 1fr/10% 1fr;
+}
+
+.ava_wrapper {
+    display: flex;
+    grid-area: ava;
+    justify-content: center;
+    align-items: center;
+    /*background: url("../img/avatar.png") center no-repeat;*/
+    /*background-size: contain;*/
+}
+
+.ava{
+    width: 100%;
+    height: auto;
+}
+
+.data {
+    margin-left: 2%;
+    grid-area: data;
+    color: #ffffff;
+
+    /*width: 100%;*/
+    /*text-align: center;*/
+}
+
+.data_items {
+    /*text-align: start;*/
+    /*color: #ff0000;*/
+}
+.status{
+    margin-bottom: 1%;
+}
+.job_status{
+    margin-bottom: 1%;
+}
+.job_description{
+    margin-bottom: 1%;
+}
+
+.data_header {
+    margin-right: 25%;
+    text-align: center;
+    /*color: #ffffff;*/
+    color: #ff0000;
+}
+
+
+@media(max-width:1077px){
+    .data_wrapper {
+        grid-template: "ava data" 1fr/96px 1fr;
+    }
+
+}
+
+.choose_img{
+    margin-left: 7%;
+    color: transparent;
+}

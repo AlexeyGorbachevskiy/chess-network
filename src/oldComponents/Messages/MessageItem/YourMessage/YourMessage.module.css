@@ -1,0 +1,61 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.message_container {
+    align-self: flex-end;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: flex-end;
+    /*background-color: lawngreen;*/
+    width: 350px;
+    height: auto;
+}
+
+.message_body {
+    margin-right: 20px;
+    position: relative;
+    border-radius: 10px 10px 10px 10px;
+    background-color: darkgreen;
+    font-family: -apple-system;
+    width: 250px;
+    height: auto;
+}
+
+.message_body::after {
+    content: '';
+    position: absolute;
+    right: -20px;
+    bottom: 0px;
+    /*border: 10px solid transparent;*/
+    /*border-right: 20px solid darkgreen;*/
+    border: 10px solid transparent;
+    border-left: 20px solid darkgreen;
+    border-bottom: 5px solid darkgreen;
+}
+
+
+.message_body h4 {
+    color: darkorchid;
+    margin-left: 5px;
+}
+
+
+.message_text {
+    margin-top: 5px;
+    margin-left: 5px;
+    color: #ffffff;
+    word-wrap: break-word;
+
+}
+
+.time_wrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.time {
+    margin-right: 10px;
+    color: grey;
+}
