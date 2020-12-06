@@ -6,27 +6,33 @@ import Profile from "./components/Profile/Profile";
 import {Login} from "./components/Login/Login";
 import {Register} from "./components/Register/Register";
 import Play from "./components/Chess/Play";
+import Players from "./components/Players/Players";
+import Friends from "./components/Friends/Friends";
+import News from "./components/News/News";
+import FullNew from "./components/News/FullNew/FullNew";
+import Messages from "./components/Messages/Messages";
+import MessageBody from "./components/Messages/MessageBody/MessageBody";
 
-export function App(){
+export function App() {
 
-        return (
+    return (
+        <div className='container'>
+            <Header/>
+            <Route exact path='/' render={() => <Redirect to={'/profile'}/>}/>
+            <Route path='/profile/:userId?' render={() => <Profile/>}/>
+            <Route path='/login' render={() => <Login/>}/>
+            <Route path='/register' render={() => <Register/>}/>
+            <Route path='/play-chess' render={() => <Play/>}/>
+            <Route path='/players' render={() => <Players/>}/>
+            <Route path='/friends' render={() => <Friends/>}/>
+            <Route exact path='/news' render={() => <News/>}/>
+            <Route path='/news/:id' render={() => <FullNew/>}/>
+            <Route exact path='/messages' render={() => <Messages/>}/>
+            <Route path='/messageBody/:id' render={() => <MessageBody/>}/>
 
-            <div className='container'>
-                <Header/>
-                <Route exact path='/' render={() => <Redirect to={'/profile'}/>}/>
-                <Route path='/profile/:userId?' render={() => <Profile/>}/>
-                <Route path='/login' render={() => <Login/>}/>
-                <Route path='/register' render={() => <Register/>}/>
-                <Route path='/play-chess' render={() => <Play/>}/>
-                {/*<Route path='/friends' render={() => <FriendsContainer/>}/>*/}
-                {/*<Route path='/messages' render={() => <MessagesContainer/>}/>*/}
-                {/*<Route path='/settings' render={() => <SettingsContainer/>}/>*/}
-                {/*<Route path='/findFriends' render={() => <FindFriendsContainer/>}/>*/}
-                {/*<Route path='/login' render={() => <Register/>}/>*/}
-                {/*<Route path='/profile' component={Post}/>*/}
-            </div>
+        </div>
 
-        )
+    )
 }
 
 

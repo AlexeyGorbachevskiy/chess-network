@@ -1,20 +1,21 @@
 import React from 'react';
-import style from './Post.module.css';
-import avatar from '../../../images/profile/saimon.jpg';
+import style from './FullNewComment.module.css';
+import avatar from '../../../../images/profile/dud.jpg';
 
 
 export type PostPropsType = {
     id:number,
     date: string,
     text: string,
-    deletePost: (id:number) => void
+    author:string,
+    deleteComment: (id:number) => void
 }
 
 
-function Post(props: PostPropsType) {
+function FullNewComment(props: PostPropsType) {
 
-    const deletePost = () => {
-        props.deletePost(props.id)
+    const deleteComment = () => {
+        props.deleteComment(props.id)
     }
 
     return (
@@ -32,7 +33,7 @@ function Post(props: PostPropsType) {
 
                 <div className={style.post_title_wrapper}>
                     <div className={style.post_title}>
-                        Semyon Shakhno
+                        {props.author}
                     </div>
 
                     <div className={style.post_date}>
@@ -44,13 +45,13 @@ function Post(props: PostPropsType) {
 
             <div className={style.wall_post_text}>
                 {props.text}
-                <p onClick={deletePost} className={style.delete_btn}>Delete post</p>
+                <p onClick={deleteComment}  className={style.delete_btn}>Delete comment</p>
             </div>
         </div>
     );
 }
 
-export default Post;
+export default FullNewComment;
 // export default compose(
 //     withAuthRedirect,
 // )(FullNewComment)

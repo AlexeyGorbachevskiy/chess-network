@@ -1,8 +1,9 @@
-import {profileAPI} from "../oldAPI/API";
+
 import {RootState} from "./redux-store";
 import {ThunkAction} from "redux-thunk";
 import {stopSubmit} from "redux-form";
 import {v1} from "uuid";
+import {profileAPI} from "../api/api";
 
 
 type initialStateType = typeof initialState

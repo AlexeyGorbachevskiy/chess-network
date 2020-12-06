@@ -93,6 +93,7 @@
 
 .links_wrapper{
     display: flex;
+    user-select: none;
 }
 
 .link{

@@ -1,4 +1,3 @@
-import {authAPI} from "../oldAPI/API";
 import {RootState} from "./redux-store";
 import {ThunkAction} from "redux-thunk";
 import {getAuthInfoThunkCreator} from "./authReducer";

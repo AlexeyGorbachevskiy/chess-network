@@ -3,11 +3,11 @@ import {UsersArrayType} from "../redux/friendsReducer";
 import {ProfileType} from "../redux/profileReducer";
 
 
+
 const axiosInstance = axios.create(
     {
-        baseURL: 'https://social-network.samuraijs.com/api/1.0/',
+        baseURL: 'https://chess-network.herokuapp.com/',
         withCredentials: true,
-        headers: {'API-KEY': '3de0712e-e19a-4637-bf5e-355c7a8ad46c'}
     },
 );
 
@@ -108,9 +108,10 @@ export const authAPI = {
             axiosInstance.get<GetAuthInfoResponseType>(`auth/me`)
         )
     },
-    login(email: string, password: string, rememberMe = false, captcha: string | undefined | null = null) {
+    login(email: string, password: string) {
         return (
-            axiosInstance.post(`auth/login`, {email, password, rememberMe, captcha})
+            axios.post(`api/auth/login`,
+                {email:'saimon@mail.ru', password:'awesome'})
         )
     },
     logout() {

@@ -1,0 +1,56 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Georgia, sans-serif;
+}
+
+.notYourMessage {
+    padding: 6px 30px 7px 0;
+    margin-bottom: 4px;
+}
+.message_info_wrapper {
+    display: flex;
+    width: 300px;
+
+}
+
+.player_avatar {
+    margin: 0 14px 0 0;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    /*background-size: contain;*/
+    border-radius: 50%;
+}
+
+
+.message_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-decoration: none;
+    border: 0;
+}
+
+.player_fullName {
+    margin-bottom: 7px;
+    cursor: pointer;
+    color: #2a5885;
+    font-weight: 700;
+    -webkit-font-smoothing: antialiased;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.player_fullName:hover {
+    text-decoration: underline;
+}
+
+.player_message {
+    /*margin-bottom: 6px;*/
+    color: #000000;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 16px;
+    text-decoration: none;
+}

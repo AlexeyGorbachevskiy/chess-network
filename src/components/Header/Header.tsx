@@ -6,6 +6,7 @@ import {RootState} from "../../redux/redux-store";
 import {logoutThunkCreator} from "../../redux/authReducer";
 
 
+
 export function Header() {
     const isAuth = useSelector<RootState,boolean>(state => state.auth.isAuth);
     const dispatch = useDispatch();
@@ -24,7 +25,8 @@ export function Header() {
 
                 <div className={obj.links_wrapper}>
                     <NavLink activeClassName={obj.link__active} className={obj.link} to='/profile'>Profile</NavLink>
-                    <NavLink activeClassName={obj.link__active} className={obj.link} to='/friends'>Players</NavLink>
+                    <NavLink activeClassName={obj.link__active} className={obj.link} to='/players'>Players</NavLink>
+                    <NavLink activeClassName={obj.link__active} className={obj.link} to='/friends'>Friends</NavLink>
                     <NavLink activeClassName={obj.link__active} className={obj.link} to='/messages'>Messages</NavLink>
                     <NavLink activeClassName={obj.link__active} className={obj.link} to='/news'>News</NavLink>
                     <NavLink activeClassName={obj.link__active} className={obj.link} to='/play-chess'>Play</NavLink>

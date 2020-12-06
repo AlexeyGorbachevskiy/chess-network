@@ -7,8 +7,8 @@ import '../node_modules/font-awesome/css/font-awesome.min.css';
 
 import {App} from "./App";
 import {HashRouter} from "react-router-dom";
-import store from "./redux/redux-store";
 import {Provider} from "react-redux";
+import store from "./redux/redux-store";
 
 
 ReactDOM.render(

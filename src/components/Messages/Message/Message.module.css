@@ -1,0 +1,139 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Georgia, sans-serif;
+}
+
+.message {
+    text-decoration: none;
+    cursor: pointer;
+    /*margin-top: 100px;*/
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow-x: hidden;
+
+    background-color: #fff;
+    padding: 0 20px 5px;
+    border-bottom: 1px solid #e7e8ec;
+    transition: all ease-in-out .2s;
+}
+.message:hover{
+    background-color: #e7e8ec;
+}
+
+.message_item_wrapper {
+    padding: 15px 0;
+    display: flex;
+    width: 100%;
+}
+
+.message_info_wrapper {
+    display: flex;
+    width: 300px;
+
+}
+
+.player_avatar {
+    margin: 0 14px 0 0;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    /*background-size: contain;*/
+    border-radius: 50%;
+}
+
+
+.message_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-decoration: none;
+    border: 0;
+}
+
+.player_fullName {
+    margin-bottom: 7px;
+    cursor: pointer;
+    color: #2a5885;
+    font-weight: 700;
+    -webkit-font-smoothing: antialiased;
+    font-size: 13px;
+    text-decoration: none !important;
+}
+
+/*.player_fullName:hover {*/
+/*    text-decoration: underline;*/
+/*}*/
+
+.player_last_message {
+    /*margin-bottom: 6px;*/
+    color: #656565;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 16px;
+    text-decoration: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

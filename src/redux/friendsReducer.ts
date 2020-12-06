@@ -1,6 +1,7 @@
-import {friendsAPI} from "../oldAPI/API";
+
 import {ThunkAction} from "redux-thunk";
 import {RootState} from "./redux-store";
+import {friendsAPI} from "../api/api";
 
 type initialStateType = typeof initialState
 

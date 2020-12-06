@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import style from './Login.module.css'
 import {NavLink, Redirect} from "react-router-dom";
-import {loginThunkCreator} from "../../redux/authReducer";
 import {useDispatch, useSelector} from "react-redux";
+import {loginThunkCreator} from "../../redux/authReducer";
 import {RootState} from "../../redux/redux-store";
 
 
 export function Login() {
-    const [email,setEmail]=useState('alexeygorbachevskiyy@gmail.com');
-    const [password,setPassword]=useState('alexeygorbachevskiy');
+    const [email,setEmail]=useState('saimon@mail.ru');
+    const [password,setPassword]=useState('awesome');
     const dispatch = useDispatch();
 
     const login=()=>{

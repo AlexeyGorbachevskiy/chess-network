@@ -4,7 +4,7 @@
 }
 
 .profile {
-    margin-top: 100px;
+    margin-top: 80px;
     height: 100%;
     width: 100%;
     display: flex;
@@ -23,12 +23,13 @@
     display: flex;
     flex-direction: column;
     width: 230px;
-    background-color: #fff;
-    padding: 15px;
     border-radius: 4px;
 }
 
 .avatar_info_wrapper {
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 15px;
     width: 100%;
     height: 280px;
     display: flex;
@@ -67,7 +68,7 @@
 }
 
 .write_msg_btn:active{
-    padding: 8px 16px 7px;
+    padding: 9px 16px 7px;
 }
 
 .add_friend_btn_wrapper{
@@ -93,8 +94,107 @@
     opacity: .88;
 }
 .add_friend_btn:active{
-    padding: 8px 16px 7px;
+    padding: 9px 16px 7px;
 }
+
+.friend_block{
+    margin-top: 15px;
+    width: 100%;
+    /*height: 280px;*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 4px;
+    padding-bottom: 8px;
+}
+
+.block_title{
+    padding: 0 15px;
+    height: 32px;
+    line-height: 40px;
+    overflow: hidden;
+    font-weight: 400;
+    font-size: 12.5px;
+    letter-spacing: 0;
+    outline: 0;
+    color: black;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+}
+
+.block_title_name{
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    font-weight: 400;
+    -webkit-font-smoothing: subpixel-antialiased;
+    font-size: 12.5px;
+    letter-spacing: 0;
+    font-family: Arial,Georgia, sans-serif;
+}
+
+
+.block_friends_count{
+    margin-left: 6px;
+    color: grey;
+    line-height: 40px;
+    font-weight: 400;
+    -webkit-font-smoothing: subpixel-antialiased;
+    font-size: 12.5px;
+    letter-spacing: 0;
+    font-family: Arial,Georgia, sans-serif;
+}
+
+.block_friends_list{
+
+}
+
+.block_friends_list_row{
+    width: 210px;
+
+    display: flex;
+}
+
+.friend_item_wrapper{
+    padding: 8px 0 5px;
+    width: 70px;
+    margin: 0 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.friend_item_avatar{
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 7px;
+}
+
+.friend_item_name{
+    font-family: Arial, Georgia, sans-serif;
+    cursor: pointer;
+    color:#2a5885;
+    font-size: 12.5px;
+}
+
+.friend_item_name:hover{
+    opacity: .88;
+    text-decoration: underline;
+}
+
+
+
+
+
+
 
 
 .column2_wrapper {

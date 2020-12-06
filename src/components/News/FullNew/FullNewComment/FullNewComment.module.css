@@ -93,7 +93,7 @@
 
 .delete_btn{
     align-self: flex-end;
-    /*margin-top: 5px;*/
+    /*margin-top: 10px;*/
     cursor: pointer;
     color: #2a5885;
     height: 30px;
