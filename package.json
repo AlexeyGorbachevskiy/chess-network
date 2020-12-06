@@ -1,5 +1,6 @@
 {
   "name": "chess-network",
+  "homepage": "https://alexeygorbachevskiy.github.io/chess-network/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -18,9 +19,16 @@
     "@types/redux-form": "^8.2.7",
     "@types/uuid": "^8.3.0",
     "axios": "^0.19.2",
+    "classnames": "^2.2.5",
     "font-awesome": "^4.7.0",
+    "lodash": "^4.17.20",
     "react": "^16.13.1",
+    "react-adsense": "^0.0.4",
+    "react-bootstrap": "^0.32.1",
     "react-dom": "^16.13.1",
+    "react-icon-base": "^2.1.2",
+    "react-instantsearch": "^5.0.3",
+    "react-markdown": "^3.3.0",
     "react-redux": "^7.2.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
@@ -30,16 +38,9 @@
     "redux-form": "^8.3.6",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
+    "serve": "^6.5.1",
     "typescript": "^3.7.5",
-    "uuid": "^8.3.0",
-    "classnames": "^2.2.5",
-    "lodash": "^4.17.5",
-    "react-adsense": "^0.0.4",
-    "react-bootstrap": "^0.32.1",
-    "react-icon-base": "^2.1.2",
-    "react-instantsearch": "^5.0.3",
-    "react-markdown": "^3.3.0",
-    "serve": "^6.5.1"
+    "uuid": "^8.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
