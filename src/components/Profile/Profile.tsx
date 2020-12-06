@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './Profile.module.css';
 import avatar from '../../images/profile/saimon.jpg';
-// import kirill from '../../images/profile/kirill.jpg';
+import kirill from '../../images/profile/kirill.jpg';
 import a1 from '../../images/profile/1.jpg';
 import a2 from '../../images/profile/2.jpg';
 import a3 from '../../images/profile/3.jpg';
@@ -53,7 +53,7 @@ function Profile() {
                             <div className={style.friend_item_wrapper}>
                                 <div
                                     style={{
-                                        // background: `url('${kirill}') no-repeat center center`,
+                                        background: `url('${kirill}') no-repeat center center`,
                                         backgroundSize: 'cover'
                                     }}
                                     className={style.friend_item_avatar}>
