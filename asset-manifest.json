@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/chess-network/static/css/main.fbcf7645.chunk.css",
+    "main.css": "/chess-network/static/css/main.aa355fa9.chunk.css",
     "main.js": "/chess-network/static/js/main.6e1d9e9f.chunk.js",
     "main.js.map": "/chess-network/static/js/main.6e1d9e9f.chunk.js.map",
     "runtime-main.js": "/chess-network/static/js/runtime-main.1e9655ad.js",
@@ -9,10 +9,10 @@
     "static/js/2.1fcc80cd.chunk.js": "/chess-network/static/js/2.1fcc80cd.chunk.js",
     "static/js/2.1fcc80cd.chunk.js.map": "/chess-network/static/js/2.1fcc80cd.chunk.js.map",
     "index.html": "/chess-network/index.html",
-    "precache-manifest.e412dea092e51d49952d04240d6d3663.js": "/chess-network/precache-manifest.e412dea092e51d49952d04240d6d3663.js",
+    "precache-manifest.4ac02cea1020571fe59270b491ba2fa8.js": "/chess-network/precache-manifest.4ac02cea1020571fe59270b491ba2fa8.js",
     "service-worker.js": "/chess-network/service-worker.js",
     "static/css/2.f57da490.chunk.css.map": "/chess-network/static/css/2.f57da490.chunk.css.map",
-    "static/css/main.fbcf7645.chunk.css.map": "/chess-network/static/css/main.fbcf7645.chunk.css.map",
+    "static/css/main.aa355fa9.chunk.css.map": "/chess-network/static/css/main.aa355fa9.chunk.css.map",
     "static/js/2.1fcc80cd.chunk.js.LICENSE.txt": "/chess-network/static/js/2.1fcc80cd.chunk.js.LICENSE.txt",
     "static/media/1.jpg": "/chess-network/static/media/1.f8295d94.jpg",
     "static/media/2.jpg": "/chess-network/static/media/2.201610b4.jpg",
@@ -28,7 +28,7 @@
     "static/js/runtime-main.1e9655ad.js",
     "static/css/2.f57da490.chunk.css",
     "static/js/2.1fcc80cd.chunk.js",
-    "static/css/main.fbcf7645.chunk.css",
+    "static/css/main.aa355fa9.chunk.css",
     "static/js/main.6e1d9e9f.chunk.js"
   ]
 }
