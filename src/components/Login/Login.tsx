@@ -12,7 +12,7 @@ export function Login() {
     const dispatch = useDispatch();
 
     const login=()=>{
-        dispatch(loginThunkCreator(email,password,false, null))
+        dispatch(loginThunkCreator(email,password))
     }
 
     const isAuth = useSelector<RootState,boolean>(state => state.auth.isAuth);

@@ -60,27 +60,37 @@ const GET_CAPTCHA_URL_SUCCESS = 'GET_CAPTCHA_URL_SUCCESS';
 //TODO --- AuthReducerActionTypes instead any
 // @ts-ignore
 // @ts-ignore
-export const setAuthUserDataAC = (userData: UserDataType, isAuth: boolean): SetAuthUserDataACType => ({
+export const setAuthUserDataAC = (userData: any, isAuth: boolean): SetAuthUserDataACType => ({
         type: SET_AUTH_USER_DATA,
         userData,
         isAuth
-    }), getCaptchaUrlAC = (url: string): GetCaptchaUrlSuccessACType => ({
+    }),
+    getCaptchaUrlAC = (url: string): GetCaptchaUrlSuccessACType => ({
         type: GET_CAPTCHA_URL_SUCCESS, url
-    }), getAuthInfoThunkCreator = (): ThunkAction<void, RootState, unknown, AuthReducerActionTypes> => {
+    }),
+    getAuthInfoThunkCreator = (): ThunkAction<void, RootState, unknown, AuthReducerActionTypes> => {
         return (
             async (dispatch, getState) => {
                 let response = await authAPI.getAuthInfo();
-                if (response.data.resultCode === 0) {
+                console.log(response)
+                if (response.status === 200) {
                     dispatch(setAuthUserDataAC(response.data.data, true));
                 }
             }
         )
     },
-    loginThunkCreator = (email: string, password: string, rememberMe: boolean, captcha: string | undefined | null): ThunkAction<void, RootState, unknown, any> => {
+    loginThunkCreator = (email: string, password: string): ThunkAction<void, RootState, unknown, any> => {
         return (
             async (dispatch, getState) => {
                 let response = await authAPI.login(email, password)
                 console.log(response)
+                console.log(response.status)
+                if (response.status === 200) {
+                    dispatch(getAuthInfoThunkCreator())
+                } else {
+                    //    TODO
+
+                }
             }
         )
     }, logoutThunkCreator = (): ThunkAction<void, RootState, unknown, AuthReducerActionTypes> => {

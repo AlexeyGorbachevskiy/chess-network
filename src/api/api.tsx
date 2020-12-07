@@ -105,13 +105,13 @@ type GetAuthInfoResponseType = {
 export const authAPI = {
     getAuthInfo() {
         return (
-            axiosInstance.get<GetAuthInfoResponseType>(`auth/me`)
+            axiosInstance.get(`api/auth/me`)
         )
     },
     login(email: string, password: string) {
         return (
-            axios.post(`api/auth/login`,
-                {email:'saimon@mail.ru', password:'awesome'})
+            axiosInstance.post(`api/auth/login`,
+                {email:email, password:password})
         )
     },
     logout() {
