@@ -1,6 +1,8 @@
 import React from 'react';
+import {compose} from 'redux';
 import style from './Players.module.css';
 import Player from "./Player/Player";
+import {withAuthRedirect} from "../../utilities/hoc/withAuthRedirect";
 
 
 function Players() {
@@ -35,7 +37,7 @@ function Players() {
     );
 }
 
-export default Players;
-// export default compose(
-//     withAuthRedirect,
-// )(FullNewComment)
+
+export default compose(
+    withAuthRedirect,
+)(Players)

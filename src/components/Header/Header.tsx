@@ -33,7 +33,9 @@ export function Header() {
                         {
                             isAuth
                                 ?
-                                <NavLink onClick={logout} className={obj.link} to='/login'>Log Out</NavLink>
+                                <NavLink activeClassName={obj.link__active}  className={obj.link} to='/login'>
+                                    <button className={obj.link} onClick={logout}>Log Out</button>
+                                </NavLink>
                                 :
                                 <NavLink activeClassName={obj.link__active} className={obj.link} to='/login'>Log In</NavLink>
 

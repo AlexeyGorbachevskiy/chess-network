@@ -1,18 +1,19 @@
 import React, {useState} from 'react';
-import style from './Login.module.css'
+import style from './Register.module.css'
 import {NavLink, Redirect} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {loginThunkCreator} from "../../redux/authReducer";
+import {loginThunkCreator, registerThunkCreator} from "../../redux/authReducer";
 import {RootState} from "../../redux/redux-store";
 
 
-export function Login() {
-    const [email,setEmail]=useState('saimon@mail.ru');
-    const [password,setPassword]=useState('awesome');
+export function Register() {
+
+    const [email,setEmail]=useState('saimon4@mail.ru');
+    const [password,setPassword]=useState('saimon4@mail.ru');
     const dispatch = useDispatch();
 
-    const login=()=>{
-        dispatch(loginThunkCreator(email,password))
+    const register=()=>{
+        dispatch(registerThunkCreator(email,password))
     }
 
     const isAuth = useSelector<RootState,boolean>(state => state.auth.isAuth);
@@ -23,17 +24,16 @@ export function Login() {
     }
 
     return (
-        <div className={style.login}>
-            <div className={style.login_form}>
+        <div className={style.register}>
+            <div className={style.register_form}>
                 <input value={email} onChange={(e)=>setEmail(e.currentTarget.value)} className={style.input} placeholder={'Email'} type="text"/>
-                <input type={'password'} value={password} onChange={(e)=>setPassword(e.currentTarget.value)} className={style.input} placeholder={'Password'}/>
+                <input value={password} onChange={(e)=>setPassword(e.currentTarget.value)} type={'password'} className={style.input} placeholder={'Password'} />
                 <div className={style.auth_wrapper}>
-                    <button style={isLoading ? {opacity:'.20', cursor:'not-allowed'} : {}} onClick={login} className={style.button}>Log in</button>
-                    <NavLink className={style.register_link} to='/register'>Are you not registered?</NavLink>
+                    <button style={isLoading ? {opacity:'.20', cursor:'not-allowed'} : {}}  className={style.button} onClick={register} >Register</button>
+                    <NavLink className={style.login_link} to='/login'>Do you have an account?</NavLink>
                 </div>
 
             </div>
-
             {
                 isLoading &&
                 <img style={{position: 'absolute', zIndex: 1200}} className={style.preloader}

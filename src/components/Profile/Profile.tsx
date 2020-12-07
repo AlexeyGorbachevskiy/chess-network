@@ -1,4 +1,5 @@
 import React from 'react';
+import {compose} from 'redux';
 import style from './Profile.module.css';
 import avatar from '../../images/profile/saimon.jpg';
 import kirill from '../../images/profile/kirill.jpg';
@@ -9,9 +10,27 @@ import dud from '../../images/profile/dud.jpg';
 import harik from '../../images/profile/harik.jpg';
 
 import Posts from "../Posts/Posts";
+import {withAuthRedirect} from "../../utilities/hoc/withAuthRedirect";
+import {useSelector} from "react-redux";
+import {RootState} from "../../redux/redux-store";
+import {LoginDataType} from "../../redux/authReducer";
+import Preloader from "../Common/preloader/Preloader";
 
 
 function Profile() {
+
+
+
+    const loginData = useSelector<RootState, LoginDataType>(state => state.auth.data);
+    const isLoading = useSelector<RootState, boolean>(state => state.auth.isLoading);
+    const isAuth = useSelector<RootState,boolean>(state => state.auth.isAuth);
+    if (!isAuth) {
+        return (
+            <div className="App" style={{marginTop:'220px',display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                <Preloader/>
+            </div>
+        )
+    }
 
     return (
         <section className={style.profile}>
@@ -20,7 +39,7 @@ function Profile() {
                 <div className={style.avatar_info_wrapper}>
                     <div
                         style={{
-                            background: `url('${avatar}') no-repeat center center`,
+                            background: `url('${'data:image/png;base64,' + loginData.photo!}') no-repeat center center`,
                             backgroundSize: 'cover'
                         }}
                         className={style.avatar}
@@ -142,7 +161,6 @@ function Profile() {
                         </div>
 
 
-
                     </div>
                 </div>
 
@@ -153,24 +171,25 @@ function Profile() {
                 <div className={style.page_info_wrapper}>
 
                     <div className={style.page_top}>
-                        <p className={style.fullName}>Semyon Shakhno</p>
+                        <p className={style.fullName}>{loginData.name + ' ' + loginData.surname}</p>
                         <p className={style.isOnline}>Online</p>
                     </div>
                     <div className={style.main_info}>
 
                         <div className={style.info_row}>
                             <span className={style.info_key}>Birthday:</span>
-                            <span className={style.info_prop}> June 16, 1997</span>
+                            <span className={style.info_prop}>{' ' + loginData.birthday}</span>
                         </div>
 
                         <div className={style.info_row}>
                             <span className={style.info_key}>Current Location:</span>
-                            <span className={style.info_prop}> Minsk, Belarus</span>
+                            <span
+                                className={style.info_prop}>{' ' + loginData.current_city + ', ' + loginData.current_country}</span>
                         </div>
 
                         <div className={style.info_row}>
                             <span className={style.info_key}>Studied at:</span>
-                            <span className={style.info_prop}> BSUIR</span>
+                            <span className={style.info_prop}>{' ' + loginData.study_place}</span>
                         </div>
 
 
@@ -185,32 +204,31 @@ function Profile() {
 
                             <div className={style.info_row}>
                                 <span className={style.info_key}>Level:</span>
-                                <span className={style.info_prop}>Grandmaster</span>
+                                <span className={style.info_prop}>{loginData.chess_level}</span>
                             </div>
 
                             <div className={style.info_row}>
                                 <span className={style.info_key}>FIDE rating:</span>
-                                <span className={style.info_prop}>3000</span>
+                                <span className={style.info_prop}>{loginData.fide_rating}</span>
                             </div>
 
                         </div>
 
 
-
-                            <div className={style.section_title_wrapper}>
+                        <div className={style.section_title_wrapper}>
                              <span className={style.section_title}>
                             Personal information
                             </span>
-                            </div>
+                        </div>
 
                         <div className={style.chess_info_section}>
                             <div className={style.info_row}>
                                 <span className={style.info_key}>About me:</span>
-                                <span className={style.info_prop}>Сhess coach</span>
+                                <span className={style.info_prop}>{loginData.about}</span>
                             </div>
                             <div className={style.info_row}>
                                 <span className={style.info_key}>My hobbies:</span>
-                                <span className={style.info_prop}>Сhess, Football, Programming</span>
+                                <span className={style.info_prop}>{loginData.hobbies}</span>
                             </div>
                         </div>
 
@@ -218,7 +236,7 @@ function Profile() {
 
                 </div>
 
-                <Posts/>
+                <Posts loginData={loginData}/>
 
             </div>
 
@@ -227,7 +245,6 @@ function Profile() {
     );
 }
 
-export default Profile;
-// export default compose(
-//     withAuthRedirect,
-// )(FullNewComment)
+export default compose(
+    withAuthRedirect,
+)(Profile)

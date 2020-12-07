@@ -1,6 +1,8 @@
 import React from 'react';
 import style from './Friends.module.css';
 import Friend from "./Friend/Friend";
+import {compose} from "redux";
+import {withAuthRedirect} from "../../utilities/hoc/withAuthRedirect";
 
 
 function Friends() {
@@ -35,7 +37,6 @@ function Friends() {
     );
 }
 
-export default Friends;
-// export default compose(
-//     withAuthRedirect,
-// )(FullNewComment)
+export default compose(
+    withAuthRedirect,
+)(Friends)

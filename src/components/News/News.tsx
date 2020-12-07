@@ -1,6 +1,8 @@
 import React from 'react';
+import {compose} from 'redux';
 import style from './News.module.css';
 import New from "./New/New";
+import {withAuthRedirect} from "../../utilities/hoc/withAuthRedirect";
 
 
 function News() {
@@ -35,7 +37,6 @@ function News() {
     );
 }
 
-export default News;
-// export default compose(
-//     withAuthRedirect,
-// )(FullNewComment)
+export default compose(
+    withAuthRedirect,
+)(News)

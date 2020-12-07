@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {Header} from "./components/Header/Header";
 import {Redirect, Route} from "react-router";
@@ -12,8 +12,31 @@ import News from "./components/News/News";
 import FullNew from "./components/News/FullNew/FullNew";
 import Messages from "./components/Messages/Messages";
 import MessageBody from "./components/Messages/MessageBody/MessageBody";
+import {useDispatch, useSelector} from "react-redux";
+import {getAuthInfoThunkCreator, initializedSuccessAC} from "./redux/authReducer";
+import {RootState} from "./redux/redux-store";
+import Preloader from "./components/Common/preloader/Preloader";
 
 export function App() {
+
+    const isAuth = useSelector<RootState, boolean>(state => state.auth.isAuth);
+    const initialized = useSelector<RootState, boolean>(state => state.app.initialized);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        if (!isAuth) {
+            dispatch(getAuthInfoThunkCreator())
+        }
+
+    }, []);
+
+
+    if (!initialized) {
+        return (
+            <div className="App" style={{marginTop:'220px',display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                <Preloader/>
+            </div>
+        )
+    }
 
     return (
         <div className='container'>

@@ -1,6 +1,8 @@
 import React from 'react';
+import {compose} from 'redux';
 import style from './Messages.module.css';
 import Message from "./Message/Message";
+import {withAuthRedirect} from "../../utilities/hoc/withAuthRedirect";
 
 
 function Messages() {
@@ -35,7 +37,7 @@ function Messages() {
     );
 }
 
-export default Messages;
-// export default compose(
-//     withAuthRedirect,
-// )(FullNewComment)
+
+export default compose(
+    withAuthRedirect,
+)(Messages)

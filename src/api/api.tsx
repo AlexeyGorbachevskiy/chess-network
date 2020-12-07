@@ -116,9 +116,15 @@ export const authAPI = {
     },
     logout() {
         return (
-            axiosInstance.delete(`auth/login`)
+            axiosInstance.delete(`api/auth/logout`)
         )
-    }
+    },
+    register(email: string, password: string) {
+        return (
+            axiosInstance.get(`api/auth/register?email=${email}&password=${password}`)
+        )
+    },
+
 }
 
 

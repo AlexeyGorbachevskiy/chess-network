@@ -1,9 +1,14 @@
 import React, {useState} from 'react';
+import {compose} from 'redux';
 import style from './Posts.module.css';
 import Post from "./Post/Post";
+import {withAuthRedirect} from "../../utilities/hoc/withAuthRedirect";
+import {LoginDataType} from "../../redux/authReducer";
 
-
-function Posts() {
+type PostsPropsType={
+    loginData:LoginDataType
+}
+function Posts(props:PostsPropsType) {
     let posts = [
         {
             id:2,
@@ -51,7 +56,7 @@ function Posts() {
             <div>
                 {postElements.map((el, index) => {
                     return (
-                        <Post id={el.id} deletePost={deletePost} key={index} date={el.date} text={el.text}/>
+                        <Post loginData={props.loginData} id={el.id} deletePost={deletePost} key={index} date={el.date} text={el.text}/>
                     )
                 })}
             </div>
@@ -61,7 +66,7 @@ function Posts() {
     );
 }
 
-export default Posts;
-// export default compose(
-//     withAuthRedirect,
-// )(FullNewComment)
+
+export default compose(
+    withAuthRedirect,
+)(Posts)
