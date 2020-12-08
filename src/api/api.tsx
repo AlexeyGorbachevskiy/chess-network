@@ -94,6 +94,25 @@ export const profileAPI = {
             axiosInstance.put(`profile`, profile)
         )
     },
+
+
+
+
+    getPosts() {
+        return (
+            axiosInstance.get(`api/post/all/1`)
+        )
+    },
+    addPost(userId:string,postText: string) {
+        return (
+            axiosInstance.post(`api/post/${userId}/add/`, {text: postText})
+        )
+    },
+    deletePost(postId: number) {
+        return (
+            axiosInstance.delete(`api/post/${postId}/`)
+        )
+    },
 }
 
 

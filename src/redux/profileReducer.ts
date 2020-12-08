@@ -1,19 +1,12 @@
-
 import {RootState} from "./redux-store";
 import {ThunkAction} from "redux-thunk";
 import {stopSubmit} from "redux-form";
-import {v1} from "uuid";
 import {profileAPI} from "../api/api";
 
 
 type initialStateType = typeof initialState
 
 
-export type PostDataArray = {
-    id: string
-    message: string
-    like: number
-}
 export type ContactsType = {
     facebook: string
     website: string
@@ -39,10 +32,7 @@ export type ProfileType = {
 }
 
 let initialState = {
-    postData: [
-        {id: v1(), message: 'Hey, how you doing?', like: 5},
-        {id: v1(), message: 'What\'s cooking, good looking?', like: 8},
-    ] as Array<PostDataArray>,
+    postsData: [] as Array<PostsDataType>,
     newPostText: '' as string,
     profile: null as ProfileType | any,
     status: '' as string
@@ -53,30 +43,25 @@ export type ProfileReducerActionTypes =
     | SetUserProfileACType
     | SetStatusACType
     | SavePhotoSuccessACType
-    | RemovePostACType
+    | DeletePostACType
+    | SetPostsDataACType
 
 
 const profileReducer = (state: initialStateType = initialState, action: ProfileReducerActionTypes): initialStateType => {
 
     switch (action.type) {
-        case ADD_POST: {
-            let postDataPushItem = {
-                id: v1(),
-                message: action.newPostText,
-                like: 9,
+            case ADD_POST: {
+                return {
+                    ...state,
+                    postsData: [action.newPost,...state.postsData],
+                };
+
             }
-            return {
-                ...state,
-                postData: [postDataPushItem, ...state.postData],
-                newPostText: '',
-            };
-
-        }
-        case REMOVE_POST: {
+        case DELETE_POST: {
 
             return {
                 ...state,
-                postData: state.postData.filter(el => el.id !== action.postId),
+                postsData: state.postsData.filter(el => el.id !== action.postId),
             };
 
         }
@@ -96,6 +81,14 @@ const profileReducer = (state: initialStateType = initialState, action: ProfileR
                 ...state, profile: {...state.profile, photos: action.photos}
             }
         }
+        case SET_POSTS_DATA: {
+
+            return {
+                ...state,
+                postsData: action.postsData.reverse()
+            };
+
+        }
         default:
             return state
     }
@@ -103,12 +96,12 @@ const profileReducer = (state: initialStateType = initialState, action: ProfileR
 
 export type AddPostACType = {
     type: typeof ADD_POST
-    newPostText: string
+    newPost: PostsDataType
 }
 
-export type RemovePostACType = {
-    type: typeof REMOVE_POST
-    postId: string
+export type DeletePostACType = {
+    type: typeof DELETE_POST
+    postId: number
 }
 
 export type SetUserProfileACType = {
@@ -125,14 +118,28 @@ export type SavePhotoSuccessACType = {
     photos: PhotosType
 }
 
+
+export type PostsDataType = {
+    id:number
+    owner_id: number
+    author_id: number
+    text: string
+    time: string
+}
+export type SetPostsDataACType = {
+    type: typeof SET_POSTS_DATA,
+    postsData: PostsDataType[]
+}
+
 const ADD_POST = 'ADD-POST';
-const REMOVE_POST = 'REMOVE-POST';
+const DELETE_POST = 'DELETE_POST-POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 const SAVE_PHOTO_SUCCESS = 'SAVE_PHOTO_SUCCESS';
-export const addPostActionCreator = (newPostText: string): AddPostACType => ({type: ADD_POST, newPostText});
+const SET_POSTS_DATA = 'SET_POSTS_DATA';
+export const addPostActionCreator = (newPost: PostsDataType): AddPostACType => ({type: ADD_POST, newPost});
 
-export const removePostActionCreator = (postId: string): RemovePostACType => ({type: REMOVE_POST, postId});
+export const deletePostActionCreator = (postId: number): DeletePostACType => ({type: DELETE_POST, postId});
 
 export const setUserProfileAC = (profile: any): SetUserProfileACType => ({type: SET_USER_PROFILE, profile});
 
@@ -149,6 +156,11 @@ export const getProfileInfoThunkCreator = (userId: string)
 }
 
 export const setStatusAC = (status: string): SetStatusACType => ({type: SET_STATUS, status});
+
+
+export const setPostsDataAC = (postsData: PostsDataType[]): SetPostsDataACType => (
+    {type: SET_POSTS_DATA, postsData}
+);
 
 export const savePhotoSuccessAC = (photos: PhotosType): SavePhotoSuccessACType => ({type: SAVE_PHOTO_SUCCESS, photos});
 
@@ -209,6 +221,66 @@ export const saveProfileThunkCreator = (formData: ProfileType)
                 dispatch<any>(action)
                 return Promise.reject(response.data.messages[0])
             }
+        }
+    )
+}
+
+
+
+
+export const getPostsThunkCreator = ()
+    : ThunkAction<void, RootState, unknown, ProfileReducerActionTypes> => {
+    return (
+        async (dispatch, getState) => {
+            try {
+                const response = await profileAPI.getPosts()
+
+                if (response.status === 200) {
+                    dispatch(setPostsDataAC(response.data))
+                }
+            } catch (error) {
+                // dispatch error
+            }
+
+        }
+    )
+}
+
+
+export const addPostThunkCreator = (userId: string, postText: string)
+    : ThunkAction<void, RootState, unknown, ProfileReducerActionTypes> => {
+    return (
+        async (dispatch, getState) => {
+            try {
+                const response = await profileAPI.addPost(userId, postText)
+                console.log(response)
+                if (response.status === 200) {
+                    dispatch(addPostActionCreator(response.data))
+                }
+            } catch (error) {
+                // dispatch error
+            }
+
+        }
+    )
+}
+
+export const deletePostThunkCreator = (postId: number)
+    : ThunkAction<void, RootState, unknown, ProfileReducerActionTypes> => {
+    return (
+        async (dispatch, getState) => {
+            try {
+                const response = await profileAPI.deletePost(postId)
+
+                console.log(response)
+
+                if (response.status === 200) {
+                    dispatch(deletePostActionCreator(postId))
+                }
+            } catch (error) {
+                // dispatch error
+            }
+
         }
     )
 }

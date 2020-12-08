@@ -1,7 +1,6 @@
 import React from 'react';
 import {compose} from 'redux';
 import style from './Profile.module.css';
-import avatar from '../../images/profile/saimon.jpg';
 import kirill from '../../images/profile/kirill.jpg';
 import a1 from '../../images/profile/1.jpg';
 import a2 from '../../images/profile/2.jpg';

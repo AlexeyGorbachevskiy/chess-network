@@ -96,6 +96,7 @@
     user-select: none;
 }
 
+
 .link{
     font-family: Arial,Georgia, sans-serif;
     cursor: pointer;
@@ -108,6 +109,7 @@
     transition-duration: 500ms;
     border: none;
     font-size: 16px;
+
 }
 
 .link__active{
@@ -116,7 +118,12 @@
 
 
 .link:last-of-type{
-    margin-right: 100px;
+    margin-right: 50px;
+}
+@media (max-width: 800px) {
+    .link:last-of-type{
+        margin-right: 5px;
+    }
 }
 .link:hover {
     color: #facf07;
