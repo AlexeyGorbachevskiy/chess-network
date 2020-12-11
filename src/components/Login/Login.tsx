@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import style from './Login.module.css'
 import {NavLink, Redirect} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {loginThunkCreator} from "../../redux/authReducer";
+import {LoginDataType, loginThunkCreator} from "../../redux/authReducer";
 import {RootState} from "../../redux/redux-store";
 
 
@@ -17,9 +17,10 @@ export function Login() {
 
     const isAuth = useSelector<RootState,boolean>(state => state.auth.isAuth);
     const isLoading = useSelector<RootState,boolean>(state => state.auth.isLoading);
+    const loginData = useSelector<RootState, LoginDataType>(state => state.auth.data);
 
     if(isAuth){
-        return <Redirect to="/profile"/>;
+        return <Redirect to={`/profile/${loginData.id}`}/>;
     }
 
     return (

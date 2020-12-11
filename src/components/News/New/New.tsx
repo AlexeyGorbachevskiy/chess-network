@@ -2,6 +2,8 @@ import React from 'react';
 import style from './New.module.css';
 import avatar from "../../../images/news/1.jpg";
 import {NavLink} from "react-router-dom";
+import {compose} from "redux";
+import {withAuthRedirect} from "../../../utilities/hoc/withAuthRedirect";
 
 
 function New() {
@@ -37,7 +39,6 @@ function New() {
     );
 }
 
-export default New;
-// export default compose(
-//     withAuthRedirect,
-// )(FullNewComment)
+export default compose(
+    withAuthRedirect,
+)(New);

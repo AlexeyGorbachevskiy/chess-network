@@ -1,37 +1,58 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import style from './Friends.module.css';
 import Friend from "./Friend/Friend";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../utilities/hoc/withAuthRedirect";
+import {useDispatch, useSelector} from "react-redux";
+import {FriendsDataType, getFriendsThunkCreator, setFriendsDataAC} from "../../redux/friendsReducer";
+import {RootState} from "../../redux/redux-store";
+import {LoginDataType} from "../../redux/authReducer";
+import Preloader from "../Common/preloader/Preloader";
 
 
 function Friends() {
+
+    const isFetching = useSelector<RootState, boolean>(state => state.friendsPage.isFetching);
+    const userId = useSelector<RootState, number | null>(state => state.auth.data.id);
+    const friendsData = useSelector<RootState, FriendsDataType[]>(state => state.friendsPage.friendsData);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getFriendsThunkCreator(userId));
+        return () => {
+            dispatch(setFriendsDataAC([]))
+        }
+    }, [dispatch])
+
+    if (isFetching) {
+        return (
+            <div className="App"
+                 style={{marginTop: '220px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                <Preloader/>
+            </div>
+        )
+    }
 
     return (
         <section className={style.players}>
             <div className={style.main_wrapper}>
                 <div className={style.main_header}>
                     <span className={style.main_header__title}>Your Friends</span>
-                    <span className={style.main_header__count}>12</span>
+                    <span className={style.main_header__count}>{friendsData.length}</span>
                 </div>
 
-                <Friend/>
-                <Friend/>
-                <Friend/>
-                <Friend/>
-                <Friend/>
-                <Friend/>
-                <Friend/>
-                <Friend/>
-                <Friend/>
-                <Friend/>
-                <Friend/>
-                <Friend/>
-                <Friend/>
-                <Friend/>
-                <Friend/>
-                <Friend/>
-
+                {
+                    friendsData.map((el: any, index: number) => {
+                        return (
+                            <Friend key={index}
+                                    name={el.name}
+                                    surname={el.surname}
+                                    photo={el.photo}
+                                    city={el.current_city}
+                                    country={el.current_country}
+                            />
+                        )
+                    })
+                }
             </div>
         </section>
     );

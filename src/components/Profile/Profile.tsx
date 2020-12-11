@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {compose} from 'redux';
 import style from './Profile.module.css';
 import kirill from '../../images/profile/kirill.jpg';
@@ -10,22 +10,38 @@ import harik from '../../images/profile/harik.jpg';
 
 import Posts from "../Posts/Posts";
 import {withAuthRedirect} from "../../utilities/hoc/withAuthRedirect";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/redux-store";
-import {LoginDataType} from "../../redux/authReducer";
+import {getAuthInfoThunkCreator, LoginDataType, setAuthUserDataAC} from "../../redux/authReducer";
 import Preloader from "../Common/preloader/Preloader";
+import {useParams} from "react-router";
+import {getPlayersThunkCreator, setPlayersDataAC, setPreloaderAC} from "../../redux/playersReducer";
+import {PostsDataType} from "../../redux/profileReducer";
 
 
 function Profile() {
 
-
-
+    const friendsData = useSelector<RootState, any>(state => state.friendsPage.friendsData);
     const loginData = useSelector<RootState, LoginDataType>(state => state.auth.data);
     const isLoading = useSelector<RootState, boolean>(state => state.auth.isLoading);
-    const isAuth = useSelector<RootState,boolean>(state => state.auth.isAuth);
-    if (!isAuth) {
+    const isAuth = useSelector<RootState, boolean>(state => state.auth.isAuth);
+    const playersData = useSelector<RootState, LoginDataType[]>(state => state.playersPage.playersData);
+    const {userId} = useParams();
+    const dispatch=useDispatch()
+    const targetUser = playersData.find((el) => el.id === +userId)
+
+    useEffect(() => {
+        dispatch(getPlayersThunkCreator(userId));
+        return ()=>{
+            dispatch(setPlayersDataAC(null,[]));
+        }
+    }, [dispatch,userId])
+
+
+    if (!isAuth || !targetUser) {
         return (
-            <div className="App" style={{marginTop:'220px',display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <div className="App"
+                 style={{marginTop: '220px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 <Preloader/>
             </div>
         )
@@ -38,7 +54,7 @@ function Profile() {
                 <div className={style.avatar_info_wrapper}>
                     <div
                         style={{
-                            background: `url('${'data:image/png;base64,' + loginData.photo!}') no-repeat center center`,
+                            background: `url('${'data:image/png;base64,' + targetUser.photo}') no-repeat center center`,
                             backgroundSize: 'cover'
                         }}
                         className={style.avatar}
@@ -60,7 +76,7 @@ function Profile() {
                             Friends
                         </div>
                         <div className={style.block_friends_count}>
-                            12
+                            {friendsData.length}
                         </div>
                     </div>
 
@@ -170,25 +186,25 @@ function Profile() {
                 <div className={style.page_info_wrapper}>
 
                     <div className={style.page_top}>
-                        <p className={style.fullName}>{loginData.name + ' ' + loginData.surname}</p>
+                        <p className={style.fullName}>{targetUser.name + ' ' + targetUser.surname}</p>
                         <p className={style.isOnline}>Online</p>
                     </div>
                     <div className={style.main_info}>
 
                         <div className={style.info_row}>
                             <span className={style.info_key}>Birthday:</span>
-                            <span className={style.info_prop}>{' ' + loginData.birthday}</span>
+                            <span className={style.info_prop}>{' ' + targetUser.birthday}</span>
                         </div>
 
                         <div className={style.info_row}>
                             <span className={style.info_key}>Current Location:</span>
                             <span
-                                className={style.info_prop}>{' ' + loginData.current_city + ', ' + loginData.current_country}</span>
+                                className={style.info_prop}>{' ' + targetUser.current_city + ', ' + targetUser.current_country}</span>
                         </div>
 
                         <div className={style.info_row}>
                             <span className={style.info_key}>Studied at:</span>
-                            <span className={style.info_prop}>{' ' + loginData.study_place}</span>
+                            <span className={style.info_prop}>{' ' + targetUser.study_place}</span>
                         </div>
 
 
@@ -203,12 +219,12 @@ function Profile() {
 
                             <div className={style.info_row}>
                                 <span className={style.info_key}>Level:</span>
-                                <span className={style.info_prop}>{loginData.chess_level}</span>
+                                <span className={style.info_prop}>{targetUser.chess_level}</span>
                             </div>
 
                             <div className={style.info_row}>
                                 <span className={style.info_key}>FIDE rating:</span>
-                                <span className={style.info_prop}>{loginData.fide_rating}</span>
+                                <span className={style.info_prop}>{targetUser.fide_rating}</span>
                             </div>
 
                         </div>
@@ -223,11 +239,11 @@ function Profile() {
                         <div className={style.chess_info_section}>
                             <div className={style.info_row}>
                                 <span className={style.info_key}>About me:</span>
-                                <span className={style.info_prop}>{loginData.about}</span>
+                                <span className={style.info_prop}>{targetUser.about}</span>
                             </div>
                             <div className={style.info_row}>
                                 <span className={style.info_key}>My hobbies:</span>
-                                <span className={style.info_prop}>{loginData.hobbies}</span>
+                                <span className={style.info_prop}>{targetUser.hobbies}</span>
                             </div>
                         </div>
 
@@ -235,7 +251,7 @@ function Profile() {
 
                 </div>
 
-                <Posts loginData={loginData}/>
+                <Posts playersData={playersData} userId={userId} targetUser={targetUser}/>
 
             </div>
 

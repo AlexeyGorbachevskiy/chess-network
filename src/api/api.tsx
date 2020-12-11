@@ -3,7 +3,6 @@ import {UsersArrayType} from "../redux/friendsReducer";
 import {ProfileType} from "../redux/profileReducer";
 
 
-
 const axiosInstance = axios.create(
     {
         baseURL: 'https://chess-network.herokuapp.com/',
@@ -25,21 +24,30 @@ type FollowResponseType = {
 
 export const friendsAPI = {
     getUsers(currentPage: number, pageSize: number) {
-        debugger
         return (
             axiosInstance.get<GetUsersResponseType>(`users?page=${currentPage}&count=${pageSize}`)
                 .then(response => response.data)
 
         )
     },
-    follow(userId: number) {
-        return (
-            axiosInstance.post<FollowResponseType>(`follow/${userId}`)
-        )
-    },
     unFollow(userId: number) {
         return (
             axiosInstance.delete<FollowResponseType>(`follow/${userId}`)
+        )
+    },
+    getPlayers() {
+        return (
+            axiosInstance.get(`api/profile/all`)
+        )
+    },
+    getFriends(){
+        return (
+            axiosInstance.get(`api/profile/friends`)
+        )
+    },
+    follow(userId: number) {
+        return (
+            axiosInstance.post(`api/profile/${userId}/subscribe`)
         )
     },
 }
@@ -96,14 +104,12 @@ export const profileAPI = {
     },
 
 
-
-
-    getPosts() {
+    getPosts(userId: string | null) {
         return (
-            axiosInstance.get(`api/post/all/1`)
+            axiosInstance.get(`api/post/all/${userId}`)
         )
     },
-    addPost(userId:string,postText: string) {
+    addPost(userId: number|null, postText: string) {
         return (
             axiosInstance.post(`api/post/${userId}/add/`, {text: postText})
         )
@@ -130,7 +136,7 @@ export const authAPI = {
     login(email: string, password: string) {
         return (
             axiosInstance.post(`api/auth/login`,
-                {email:email, password:password})
+                {email: email, password: password})
         )
     },
     logout() {

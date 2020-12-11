@@ -1,4 +1,4 @@
-import {createStore, combineReducers, applyMiddleware,compose} from 'redux';
+import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 import profileReducer from "./profileReducer";
 import messagesItemReducer from "./messagesItemReducer";
 import friendsReducer from "./friendsReducer";
@@ -6,13 +6,15 @@ import authReducer from "./authReducer";
 import thunkMiddleware from 'redux-thunk';
 import {reducer as formReducer} from 'redux-form';
 import appReducer from "./appReducer";
+import playersReducer from "./playersReducer";
 
 
 let rootReducer = combineReducers(
     {
         profilePage: profileReducer,
         messagesPage: messagesItemReducer,
-        // friendsPage: friendsReducer,
+        friendsPage: friendsReducer,
+        playersPage: playersReducer,
         findFriendsPage: friendsReducer,
         auth: authReducer,
         form: formReducer,

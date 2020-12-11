@@ -3,6 +3,8 @@ import style from './FullNew.module.css';
 import avatar from "../../../images/news/1.jpg";
 import {NavLink} from "react-router-dom";
 import FullNewComment from "./FullNewComment/FullNewComment";
+import {compose} from "redux";
+import {withAuthRedirect} from "../../../utilities/hoc/withAuthRedirect";
 
 
 function FullNew() {
@@ -131,7 +133,7 @@ function FullNew() {
     );
 }
 
-export default FullNew;
-// export default compose(
-//     withAuthRedirect,
-// )(FullNewComment)
+
+export default compose(
+    withAuthRedirect,
+)(FullNew);

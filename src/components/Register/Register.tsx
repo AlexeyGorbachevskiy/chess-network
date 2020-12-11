@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import style from './Register.module.css'
 import {NavLink, Redirect} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {loginThunkCreator, registerThunkCreator} from "../../redux/authReducer";
+import {LoginDataType, loginThunkCreator, registerThunkCreator} from "../../redux/authReducer";
 import {RootState} from "../../redux/redux-store";
 
 
@@ -18,9 +18,10 @@ export function Register() {
 
     const isAuth = useSelector<RootState,boolean>(state => state.auth.isAuth);
     const isLoading = useSelector<RootState,boolean>(state => state.auth.isLoading);
+    const loginData = useSelector<RootState, LoginDataType>(state => state.auth.data);
 
     if(isAuth){
-        return <Redirect to="/profile"/>;
+        return <Redirect to={`/profile/${loginData.id}`}/>;
     }
 
     return (

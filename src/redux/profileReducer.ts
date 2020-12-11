@@ -1,7 +1,8 @@
 import {RootState} from "./redux-store";
 import {ThunkAction} from "redux-thunk";
 import {stopSubmit} from "redux-form";
-import {profileAPI} from "../api/api";
+import {friendsAPI, profileAPI} from "../api/api";
+import {FriendsReducerActionTypes, setPlayersDataAC, setPreloaderAC} from "./playersReducer";
 
 
 type initialStateType = typeof initialState
@@ -50,13 +51,13 @@ export type ProfileReducerActionTypes =
 const profileReducer = (state: initialStateType = initialState, action: ProfileReducerActionTypes): initialStateType => {
 
     switch (action.type) {
-            case ADD_POST: {
-                return {
-                    ...state,
-                    postsData: [action.newPost,...state.postsData],
-                };
+        case ADD_POST: {
+            return {
+                ...state,
+                postsData: [action.newPost, ...state.postsData],
+            };
 
-            }
+        }
         case DELETE_POST: {
 
             return {
@@ -120,7 +121,7 @@ export type SavePhotoSuccessACType = {
 
 
 export type PostsDataType = {
-    id:number
+    id: number
     owner_id: number
     author_id: number
     text: string
@@ -228,12 +229,14 @@ export const saveProfileThunkCreator = (formData: ProfileType)
 
 
 
-export const getPostsThunkCreator = ()
+
+
+export const getPostsThunkCreator = (userId:string|null)
     : ThunkAction<void, RootState, unknown, ProfileReducerActionTypes> => {
     return (
         async (dispatch, getState) => {
             try {
-                const response = await profileAPI.getPosts()
+                const response = await profileAPI.getPosts(userId)
 
                 if (response.status === 200) {
                     dispatch(setPostsDataAC(response.data))
@@ -247,7 +250,7 @@ export const getPostsThunkCreator = ()
 }
 
 
-export const addPostThunkCreator = (userId: string, postText: string)
+export const addPostThunkCreator = (userId: number|null, postText: string)
     : ThunkAction<void, RootState, unknown, ProfileReducerActionTypes> => {
     return (
         async (dispatch, getState) => {
@@ -284,5 +287,7 @@ export const deletePostThunkCreator = (postId: number)
         }
     )
 }
+
+
 
 export default profileReducer;

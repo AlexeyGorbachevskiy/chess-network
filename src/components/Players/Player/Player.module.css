@@ -110,8 +110,28 @@
     padding: 8px 16px 7px;
 }
 
-
-
+.unfollow_button{
+    opacity: .20;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 7px 16px 8px;
+    width: 135px;
+    /*background-color: #5181b8;*/
+    border: 0;
+    outline: none;
+    color: #fff;
+    font-family: Arial, Georgia, sans-serif;
+    font-size: 12.5px;
+    margin-bottom: 8px;
+    line-height: 11px;
+    background-color: red;
+}
+.unfollow_button:hover{
+    opacity: 1;
+}
+.unfollow_button:active{
+    padding: 8px 16px 7px;
+}
 
 
 

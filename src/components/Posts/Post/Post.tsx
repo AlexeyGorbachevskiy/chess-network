@@ -5,15 +5,19 @@ import {LoginDataType} from "../../../redux/authReducer";
 
 
 export type PostPropsType = {
-    id:number,
+    id: number,
     date: string,
     text: string,
-    deletePost: (id:number) => void
-    loginData:LoginDataType
+    deletePost: (id: number) => void
+    targetUser: LoginDataType
+    playersData: LoginDataType[]
+    authorId: number | null
 }
 
 
 function Post(props: PostPropsType) {
+
+    const authorData = props.playersData.find((el) => el.id === props.authorId)
 
     const deletePost = () => {
         props.deletePost(props.id)
@@ -25,7 +29,7 @@ function Post(props: PostPropsType) {
             <div className={style.post_header}>
                 <div
                     style={{
-                        background: `url('${'data:image/png;base64,' + props.loginData.photo!}') no-repeat center center`,
+                        background: `url('${'data:image/png;base64,' + authorData!.photo}') no-repeat center center`,
                         backgroundSize: 'cover'
                     }}
                     className={style.avatar}
@@ -34,7 +38,7 @@ function Post(props: PostPropsType) {
 
                 <div className={style.post_title_wrapper}>
                     <div className={style.post_title}>
-                        {props.loginData.name+' '+props.loginData.surname}
+                        {authorData!.name + ' ' + authorData!.surname}
                     </div>
 
                     <div className={style.post_date}>

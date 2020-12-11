@@ -3,12 +3,13 @@ import React from "react";
 import obj from './Header.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/redux-store";
-import {logoutThunkCreator} from "../../redux/authReducer";
+import {LoginDataType, logoutThunkCreator} from "../../redux/authReducer";
 
 
 
 export function Header() {
     const isAuth = useSelector<RootState,boolean>(state => state.auth.isAuth);
+    const loginData = useSelector<RootState, LoginDataType>(state => state.auth.data);
     const dispatch = useDispatch();
     const logout=()=>{
         dispatch(logoutThunkCreator())
@@ -24,7 +25,7 @@ export function Header() {
 
 
                 <div className={obj.links_wrapper}>
-                    <NavLink activeClassName={obj.link__active} className={obj.link} to='/profile'>Profile</NavLink>
+                    <NavLink activeClassName={obj.link__active} className={obj.link} to={`/profile/${loginData.id}`}>Profile</NavLink>
                     <NavLink activeClassName={obj.link__active} className={obj.link} to='/players'>Players</NavLink>
                     <NavLink activeClassName={obj.link__active} className={obj.link} to='/friends'>Friends</NavLink>
                     <NavLink activeClassName={obj.link__active} className={obj.link} to='/messages'>Messages</NavLink>
@@ -33,9 +34,9 @@ export function Header() {
                         {
                             isAuth
                                 ?
-                                <NavLink activeClassName={obj.link__active}  className={obj.link} to='/login'>
+                                <div className={obj.link}>
                                     <button className={obj.link} onClick={logout}>Log Out</button>
-                                </NavLink>
+                                </div>
                                 :
                                 <NavLink activeClassName={obj.link__active} className={obj.link} to='/login'>Log In</NavLink>
 

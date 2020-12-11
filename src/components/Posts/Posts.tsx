@@ -14,42 +14,33 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/redux-store";
 
 type PostsPropsType = {
-    loginData: LoginDataType
+    userId: string | null
+    targetUser: LoginDataType
+    playersData: LoginDataType[]
 }
 
 function Posts(props: PostsPropsType) {
-    // let posts = [
-    //     {
-    //         id: 2,
-    //         date: 'Sat, 05 Dec 2020 20:49',
-    //         text: 'I like playing chess'
-    //     },
-    //     {
-    //         id: 1,
-    //         date: 'Sat, 05 Dec 2020 17:04',
-    //         text: 'Hello, how u doing?'
-    //     }
-    // ]
 
     const [value, setValue] = useState('');
+    const postsData = useSelector<RootState, PostsDataType[]>(state => state.profilePage.postsData);
 
     const deletePost = (id: number) => {
         dispatch(deletePostThunkCreator(id))
     }
     const dispatch = useDispatch();
 
-    const postsData = useSelector<RootState, PostsDataType[]>(state => state.profilePage.postsData);
+
     const addPost = () => {
         if (value.trim().length === 0) {
             return
         }
-        dispatch(addPostThunkCreator('1', value))
+        dispatch(addPostThunkCreator(props.targetUser.id, value))
         setValue('');
     }
 
 
     useEffect(() => {
-        dispatch(getPostsThunkCreator())
+        dispatch(getPostsThunkCreator(props.userId))
     }, [])
 
     return (
@@ -67,8 +58,12 @@ function Posts(props: PostsPropsType) {
             <div>
                 {postsData.map((el, index) => {
                     return (
-                        <Post loginData={props.loginData} id={el.id} deletePost={deletePost} key={index} date={el.time}
-                              text={el.text}/>
+                        <Post targetUser={props.targetUser} id={el.id} deletePost={deletePost} key={index}
+                              date={el.time}
+                              text={el.text}
+                              playersData={props.playersData}
+                              authorId={el.author_id}
+                        />
                     )
                 })}
             </div>
