@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import './App.css';
 import {Header} from "./components/Header/Header";
 import {Redirect, Route} from "react-router";
@@ -32,7 +32,8 @@ export function App() {
 
     if (!initialized) {
         return (
-            <div className="App" style={{marginTop:'220px',display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <div className="App"
+                 style={{marginTop: '220px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 <Preloader/>
             </div>
         )
@@ -49,7 +50,7 @@ export function App() {
             <Route path='/players' render={() => <Players/>}/>
             <Route path='/friends' render={() => <Friends/>}/>
             <Route exact path='/news' render={() => <News/>}/>
-            <Route path='/news/:id' render={() => <FullNew/>}/>
+            <Route path='/news/:newId' render={() => <FullNew/>}/>
             <Route exact path='/messages' render={() => <Messages/>}/>
             <Route path='/messageBody/:id' render={() => <MessageBody/>}/>
 

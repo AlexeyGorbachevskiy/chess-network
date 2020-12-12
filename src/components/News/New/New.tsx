@@ -1,12 +1,19 @@
 import React from 'react';
 import style from './New.module.css';
-import avatar from "../../../images/news/1.jpg";
 import {NavLink} from "react-router-dom";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../../utilities/hoc/withAuthRedirect";
 
 
-function New() {
+type NewsPropsType = {
+    id: number
+    title: string
+    summary: string
+    text: string
+    photo: string
+}
+
+function New(props: NewsPropsType) {
 
     return (
         <div className={style.new}>
@@ -14,11 +21,11 @@ function New() {
 
 
                 <NavLink className={style.new_avatar}
-                         to={`/news/${1}`}
-                     style={{
-                         background: `url('${avatar}') no-repeat center center`,
-                         backgroundSize: 'cover'
-                     }}>
+                         to={`/news/${props.id}`}
+                         style={{
+                             background: `url('${'data:image/png;base64,' + props.photo}') no-repeat center center`,
+                             backgroundSize: 'cover'
+                         }}>
                     <div className={style.new_avatar_blackout}>
 
                     </div>
@@ -26,10 +33,12 @@ function New() {
 
 
                 <div className={style.new_description_wrapper}>
-                    <NavLink to={`/news/${1}`} className={style.new_sub_title}>Events panorama</NavLink>
-                    <NavLink className={style.new_title} to={`/news/${1}`}>Не повторит ли Непомнящий путь Карякина?</NavLink>
+                    <NavLink to={`/news/${props.id}`} className={style.new_sub_title}>Events panorama</NavLink>
+                    <NavLink className={style.new_title} to={`/news/${1}`}>
+                        {props.title}
+                    </NavLink>
                     <div className={style.new_brief_description}>
-                        Турнир претендентов, проходящий в эти дни в Екатеринбурге, подходит к своему экватору, и уже...
+                        {props.text.slice(0,90)}...
                     </div>
 
                 </div>

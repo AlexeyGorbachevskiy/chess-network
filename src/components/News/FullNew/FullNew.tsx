@@ -1,18 +1,49 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import style from './FullNew.module.css';
-import avatar from "../../../images/news/1.jpg";
 import {NavLink} from "react-router-dom";
 import FullNewComment from "./FullNewComment/FullNewComment";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../../utilities/hoc/withAuthRedirect";
+import {useParams} from "react-router";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    addNewCommentThunkCreator,
+    getFullNewCommentsThunkCreator,
+    getFullNewThunkCreator,
+    NewCommentDataType,
+    NewsDataType,
+    setFullNewCommentDataAC,
+    setFullNewDataAC
+} from "../../../redux/newsReducer";
+import Preloader from "../../Common/preloader/Preloader";
+import {RootState} from "../../../redux/redux-store";
 
 
 function FullNew() {
+    const isAuth = useSelector<RootState, boolean>(state => state.auth.isAuth);
+    const newData = useSelector<RootState, NewsDataType>(state => state.newsPage.newData);
+    const commentData = useSelector<RootState, NewCommentDataType[]>(state => state.newsPage.newCommentData);
+    const {newId} = useParams();
+    const dispatch = useDispatch();
+    const [value, setValue] = useState('');
 
-    const article_head = 'Турнир претендентов, проходящий в эти дни в Екатеринбурге, подходит к своему экватору, ' +
-        'и уже можно делать некоторые выводы. Вопреки всем обстоятельствам, ' +
-        'его не отменили, и есть шансы на то, что скоро мы узнаем победителя, который затем сыграет матч на ' +
-        'первенство мира с Магнусом Карлсеном.';
+    useEffect(() => {
+        dispatch(getFullNewThunkCreator(+newId))
+        dispatch(getFullNewCommentsThunkCreator(+newId))
+        return () => {
+            dispatch(setFullNewDataAC({} as NewsDataType))
+            dispatch(setFullNewCommentDataAC([] as NewCommentDataType[]))
+        }
+    }, [dispatch,newId])
+
+    if (!isAuth || !newData) {
+        return (
+            <div className="App"
+                 style={{marginTop: '220px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                <Preloader/>
+            </div>
+        )
+    }
 
     const fullNewText = [
         'Первое, что мне бросилось в глаза, – это хорошая дебютная подготовка некоторых участников. ' +
@@ -33,43 +64,17 @@ function FullNew() {
         'что у Непомнящего – хорошие шансы выиграть турнир претендентов…'
     ];
 
-    let comments = [
-        {
-            id: 3,
-            date: 'Sat, 05 Dec 2020 17:04',
-            text: 'I\'m a new Kasparov !!!',
-            author: 'Yuriy Dud'
-        },
-        {
-            id: 2,
-            date: 'Sat, 05 Dec 2020 20:49',
-            text: 'I like playing chess',
-            author: 'Yuriy Dud'
-        },
-        {
-            id: 1,
-            date: 'Sat, 05 Dec 2020 17:04',
-            text: 'Hello, how u doing?',
-            author: 'Yuriy Dud'
-        }
-    ];
 
-    const [value, setValue] = useState('');
-    const [commentsElements, setCommentsElements] = useState(comments);
-    const deleteComment=(id:number)=>{
-        let newComments=commentsElements.filter((el)=>el.id!==id);
-        setCommentsElements(newComments)
+    const deleteComment = (id: number) => {
+        // let newComments = commentsElements.filter((el) => el.id !== id);
+        // setCommentsElements(newComments)
     }
 
-    const addComment=()=>{
+    const addComment = () => {
         if (value.trim().length === 0) {
             return
         }
-        const date = new Date().toUTCString().slice(0, -13) + ' ' + new Date().getHours() + ':' + new Date().getMinutes();
-
-        let newComments = [{id: commentsElements.length+1,date, text: value, author:'Yuriy Dud'}, ...commentsElements.map((el) => ({...el}))];
-        setCommentsElements(newComments)
-        setValue('')
+        dispatch(addNewCommentThunkCreator(newId,value))
     }
 
 
@@ -77,20 +82,20 @@ function FullNew() {
         <article className={style.fullNew}>
             <div className={style.fullNew_photo}
                  style={{
-                     background: `url('${avatar}') no-repeat center center`,
+                     background: `url('${'data:image/png;base64,' + newData.photo}') no-repeat center center`,
                      backgroundSize: 'cover'
                  }}
             >
                 <div className={style.fullNew_photo_blackout}>
                     <NavLink className={style.panorama} to={'/news'}>Events panorama</NavLink>
-                    <p className={style.fullNew_title}>Не повторит ли Непомнящий путь Карякина?</p>
+                    <p className={style.fullNew_title}>{newData.title}</p>
                 </div>
             </div>
 
             <div className={style.fullNew_content}>
 
                 <div className={style.fullNew_content_title}>
-                    <em>{article_head}</em>
+                    <em>{newData.summary}</em>
                 </div>
                 <div className={style.fullNew_content_text}>
                     {
@@ -123,9 +128,10 @@ function FullNew() {
             </div>
 
             {
-                commentsElements.map((el) => {
+                commentData.map((el, index) => {
                     return (
-                        <FullNewComment deleteComment={deleteComment} author={el.author} id={el.id} date={el.date} text={el.text}/>
+                        <FullNewComment key={index} deleteComment={deleteComment} author={el.author_id} id={el.id}
+                                        date={el.time} text={el.text}/>
                     )
                 })
             }

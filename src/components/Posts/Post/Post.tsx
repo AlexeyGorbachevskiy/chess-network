@@ -1,7 +1,8 @@
 import React from 'react';
+import {compose} from 'redux';
 import style from './Post.module.css';
-import avatar from '../../../images/profile/saimon.jpg';
 import {LoginDataType} from "../../../redux/authReducer";
+import {withAuthRedirect} from "../../../utilities/hoc/withAuthRedirect";
 
 
 export type PostPropsType = {
@@ -9,15 +10,14 @@ export type PostPropsType = {
     date: string,
     text: string,
     deletePost: (id: number) => void
-    targetUser: LoginDataType
+    playerData: LoginDataType
     playersData: LoginDataType[]
     authorId: number | null
 }
 
 
 function Post(props: PostPropsType) {
-
-    const authorData = props.playersData.find((el) => el.id === props.authorId)
+    const authorData = props.playersData.find((el) => el.id === props.authorId);
 
     const deletePost = () => {
         props.deletePost(props.id)
@@ -27,14 +27,15 @@ function Post(props: PostPropsType) {
         <div className={style.post_wrapper}>
 
             <div className={style.post_header}>
+
                 <div
                     style={{
                         background: `url('${'data:image/png;base64,' + authorData!.photo}') no-repeat center center`,
                         backgroundSize: 'cover'
                     }}
-                    className={style.avatar}
+                    className={authorData!.online ? style.avatar__online : style.avatar}
                 />
-                <span className={style.blind_label}/>
+                <div className={style.blind_label}/>
 
                 <div className={style.post_title_wrapper}>
                     <div className={style.post_title}>
@@ -56,7 +57,7 @@ function Post(props: PostPropsType) {
     );
 }
 
-export default Post;
-// export default compose(
-//     withAuthRedirect,
-// )(FullNewComment)
+
+export default compose(
+    withAuthRedirect,
+)(Post)

@@ -2,43 +2,48 @@ import React, {useEffect} from 'react';
 import {compose} from 'redux';
 import style from './Profile.module.css';
 import kirill from '../../images/profile/kirill.jpg';
-import a1 from '../../images/profile/1.jpg';
 import a2 from '../../images/profile/2.jpg';
-import a3 from '../../images/profile/3.jpg';
-import dud from '../../images/profile/dud.jpg';
-import harik from '../../images/profile/harik.jpg';
-
-import Posts from "../Posts/Posts";
 import {withAuthRedirect} from "../../utilities/hoc/withAuthRedirect";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/redux-store";
-import {getAuthInfoThunkCreator, LoginDataType, setAuthUserDataAC} from "../../redux/authReducer";
+import {LoginDataType} from "../../redux/authReducer";
 import Preloader from "../Common/preloader/Preloader";
 import {useParams} from "react-router";
-import {getPlayersThunkCreator, setPlayersDataAC, setPreloaderAC} from "../../redux/playersReducer";
-import {PostsDataType} from "../../redux/profileReducer";
+import {
+    getPlayersThunkCreator,
+    getPlayerThunkCreator,
+    setPlayerDataAC,
+    setPlayersDataAC
+} from "../../redux/playersReducer";
+import {getPostsThunkCreator} from "../../redux/profileReducer";
+import Posts from "../Posts/Posts";
+import {getFriendsThunkCreator, setFriendsDataAC} from "../../redux/friendsReducer";
 
 
 function Profile() {
 
     const friendsData = useSelector<RootState, any>(state => state.friendsPage.friendsData);
-    const loginData = useSelector<RootState, LoginDataType>(state => state.auth.data);
-    const isLoading = useSelector<RootState, boolean>(state => state.auth.isLoading);
     const isAuth = useSelector<RootState, boolean>(state => state.auth.isAuth);
+    const playerData = useSelector<RootState, LoginDataType>(state => state.playersPage.playerData);
     const playersData = useSelector<RootState, LoginDataType[]>(state => state.playersPage.playersData);
     const {userId} = useParams();
-    const dispatch=useDispatch()
-    const targetUser = playersData.find((el) => el.id === +userId)
+    const dispatch = useDispatch();
 
     useEffect(() => {
+        dispatch(getPlayerThunkCreator(userId));
         dispatch(getPlayersThunkCreator(userId));
-        return ()=>{
-            dispatch(setPlayersDataAC(null,[]));
+        dispatch(getPostsThunkCreator(userId))
+        dispatch(getFriendsThunkCreator(userId));
+
+        return () => {
+            dispatch(setPlayerDataAC(null, {} as LoginDataType));
+            dispatch(setPlayersDataAC(null, [] as LoginDataType[]));
+            dispatch(setFriendsDataAC([]))
         }
-    }, [dispatch,userId])
+    }, [dispatch, userId])
 
 
-    if (!isAuth || !targetUser) {
+    if (!isAuth || !playerData.id || !playersData.length) {
         return (
             <div className="App"
                  style={{marginTop: '220px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
@@ -54,7 +59,7 @@ function Profile() {
                 <div className={style.avatar_info_wrapper}>
                     <div
                         style={{
-                            background: `url('${'data:image/png;base64,' + targetUser.photo}') no-repeat center center`,
+                            background: `url('${'data:image/png;base64,' + playerData.photo}') no-repeat center center`,
                             backgroundSize: 'cover'
                         }}
                         className={style.avatar}
@@ -82,96 +87,111 @@ function Profile() {
 
                     <div className={style.block_friends_list}>
 
+
                         <div className={style.block_friends_list_row}>
+                            {
+                                friendsData[0] &&
+                                <div className={style.friend_item_wrapper}>
+                                    <div
+                                        style={{
+                                            background: `url('${kirill}') no-repeat center center`,
+                                            backgroundSize: 'cover'
+                                        }}
+                                        className={style.friend_item_avatar}>
+                                    </div>
 
-                            <div className={style.friend_item_wrapper}>
-                                <div
-                                    style={{
-                                        background: `url('${kirill}') no-repeat center center`,
-                                        backgroundSize: 'cover'
-                                    }}
-                                    className={style.friend_item_avatar}>
+                                    <div className={style.friend_item_name}>
+                                        Kirill
+                                    </div>
                                 </div>
+                            }
+                            {
+                                friendsData[1] &&
+                                <div className={style.friend_item_wrapper}>
+                                    <div
+                                        style={{
+                                            background: `url('${kirill}') no-repeat center center`,
+                                            backgroundSize: 'cover'
+                                        }}
+                                        className={style.friend_item_avatar}>
+                                    </div>
 
-                                <div className={style.friend_item_name}>
-                                    Kirill
+                                    <div className={style.friend_item_name}>
+                                        Kirill
+                                    </div>
                                 </div>
-                            </div>
+                            }
+                            {
+                                friendsData[2] &&
+                                <div className={style.friend_item_wrapper}>
+                                    <div
+                                        style={{
+                                            background: `url('${kirill}') no-repeat center center`,
+                                            backgroundSize: 'cover'
+                                        }}
+                                        className={style.friend_item_avatar}>
+                                    </div>
 
-                            <div className={style.friend_item_wrapper}>
-                                <div
-                                    style={{
-                                        background: `url('${harik}') no-repeat center center`,
-                                        backgroundSize: 'cover'
-                                    }}
-                                    className={style.friend_item_avatar}>
+                                    <div className={style.friend_item_name}>
+                                        Kirill
+                                    </div>
                                 </div>
-
-                                <div className={style.friend_item_name}>
-                                    Harik
-                                </div>
-                            </div>
-
-                            <div className={style.friend_item_wrapper}>
-                                <div
-                                    style={{
-                                        background: `url('${a1}') no-repeat center center`,
-                                        backgroundSize: 'cover'
-                                    }}
-                                    className={style.friend_item_avatar}>
-                                </div>
-
-                                <div className={style.friend_item_name}>
-                                    Alexander
-                                </div>
-                            </div>
-
+                            }
                         </div>
 
 
                         <div className={style.block_friends_list_row}>
 
-                            <div className={style.friend_item_wrapper}>
-                                <div
-                                    style={{
-                                        background: `url('${a2}') no-repeat center center`,
-                                        backgroundSize: 'cover'
-                                    }}
-                                    className={style.friend_item_avatar}>
-                                </div>
+                            {
+                                friendsData[3] &&
+                                <div className={style.friend_item_wrapper}>
+                                    <div
+                                        style={{
+                                            background: `url('${a2}') no-repeat center center`,
+                                            backgroundSize: 'cover'
+                                        }}
+                                        className={style.friend_item_avatar}>
+                                    </div>
 
-                                <div className={style.friend_item_name}>
-                                    Vera
+                                    <div className={style.friend_item_name}>
+                                        Vera
+                                    </div>
                                 </div>
-                            </div>
+                            }
+                            {
+                                friendsData[4] &&
+                                <div className={style.friend_item_wrapper}>
+                                    <div
+                                        style={{
+                                            background: `url('${a2}') no-repeat center center`,
+                                            backgroundSize: 'cover'
+                                        }}
+                                        className={style.friend_item_avatar}>
+                                    </div>
 
-                            <div className={style.friend_item_wrapper}>
-                                <div
-                                    style={{
-                                        background: `url('${a3}') no-repeat center center`,
-                                        backgroundSize: 'cover'
-                                    }}
-                                    className={style.friend_item_avatar}>
+                                    <div className={style.friend_item_name}>
+                                        Vera
+                                    </div>
                                 </div>
+                            }
 
-                                <div className={style.friend_item_name}>
-                                    Dmitriy
-                                </div>
-                            </div>
+                            {
+                                friendsData[5] &&
+                                <div className={style.friend_item_wrapper}>
+                                    <div
+                                        style={{
+                                            background: `url('${a2}') no-repeat center center`,
+                                            backgroundSize: 'cover'
+                                        }}
+                                        className={style.friend_item_avatar}>
+                                    </div>
 
-                            <div className={style.friend_item_wrapper}>
-                                <div
-                                    style={{
-                                        background: `url('${dud}') no-repeat center center`,
-                                        backgroundSize: 'cover'
-                                    }}
-                                    className={style.friend_item_avatar}>
+                                    <div className={style.friend_item_name}>
+                                        Vera
+                                    </div>
                                 </div>
+                            }
 
-                                <div className={style.friend_item_name}>
-                                    Yuriy
-                                </div>
-                            </div>
 
                         </div>
 
@@ -186,25 +206,27 @@ function Profile() {
                 <div className={style.page_info_wrapper}>
 
                     <div className={style.page_top}>
-                        <p className={style.fullName}>{targetUser.name + ' ' + targetUser.surname}</p>
-                        <p className={style.isOnline}>Online</p>
+                        <p className={style.fullName}>{playerData.name + ' ' + playerData.surname}</p>
+                        {
+                            playerData.online && <p className={style.isOnline}>Online</p>
+                        }
                     </div>
                     <div className={style.main_info}>
 
                         <div className={style.info_row}>
                             <span className={style.info_key}>Birthday:</span>
-                            <span className={style.info_prop}>{' ' + targetUser.birthday}</span>
+                            <span className={style.info_prop}>{' ' + playerData.birthday}</span>
                         </div>
 
                         <div className={style.info_row}>
                             <span className={style.info_key}>Current Location:</span>
                             <span
-                                className={style.info_prop}>{' ' + targetUser.current_city + ', ' + targetUser.current_country}</span>
+                                className={style.info_prop}>{' ' + playerData.current_city + ', ' + playerData.current_country}</span>
                         </div>
 
                         <div className={style.info_row}>
                             <span className={style.info_key}>Studied at:</span>
-                            <span className={style.info_prop}>{' ' + targetUser.study_place}</span>
+                            <span className={style.info_prop}>{' ' + playerData.study_place}</span>
                         </div>
 
 
@@ -219,12 +241,12 @@ function Profile() {
 
                             <div className={style.info_row}>
                                 <span className={style.info_key}>Level:</span>
-                                <span className={style.info_prop}>{targetUser.chess_level}</span>
+                                <span className={style.info_prop}>{playerData.chess_level}</span>
                             </div>
 
                             <div className={style.info_row}>
                                 <span className={style.info_key}>FIDE rating:</span>
-                                <span className={style.info_prop}>{targetUser.fide_rating}</span>
+                                <span className={style.info_prop}>{playerData.fide_rating}</span>
                             </div>
 
                         </div>
@@ -239,11 +261,15 @@ function Profile() {
                         <div className={style.chess_info_section}>
                             <div className={style.info_row}>
                                 <span className={style.info_key}>About me:</span>
-                                <span className={style.info_prop}>{targetUser.about}</span>
+                                <span className={style.info_prop}>{playerData.about}</span>
                             </div>
                             <div className={style.info_row}>
                                 <span className={style.info_key}>My hobbies:</span>
-                                <span className={style.info_prop}>{targetUser.hobbies}</span>
+                                <span className={style.info_prop}>{playerData.hobbies}</span>
+                            </div>
+                            <div className={style.info_row}>
+                                <span className={style.info_key}>Email:</span>
+                                <span className={style.info_prop}>{playerData.email}</span>
                             </div>
                         </div>
 
@@ -251,7 +277,7 @@ function Profile() {
 
                 </div>
 
-                <Posts playersData={playersData} userId={userId} targetUser={targetUser}/>
+                <Posts playersData={playersData} playerData={playerData} userId={userId}/>
 
             </div>
 

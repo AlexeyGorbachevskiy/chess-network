@@ -21,6 +21,7 @@ export type UsersArrayType = {
 
 let initialState = {
     playersData: [] as LoginDataType[],
+    playerData: {} as LoginDataType,
     isFetching: false,
 }
 
@@ -32,31 +33,32 @@ export type FriendsReducerActionTypes =
     | SetTotalUsersCountACType
     | SetPreloaderACType
     | SetFollowingInProgressACType
-    | SetPlayersACType;
+    | SetPlayersACType
+    | SetPlayerACType;
 const playersReducer = (state: initialStateType = initialState, action: FriendsReducerActionTypes): initialStateType => {
 
     switch (action.type) {
-        // case FOLLOW: {
-        //     return {
-        //         ...state,
-        //         users: state.users.map((u) => {
-        //             if (u.id === action.userId) {
-        //                 return {...u, followed: true}
-        //             }
-        //             return u
-        //         })
-        //     };
-        // }
-        // case UNFOLLOW: {
-        //     return {
-        //         ...state, users: state.users.map((u) => {
-        //             if (u.id === action.userId) {
-        //                 return {...u, followed: false}
-        //             }
-        //             return u
-        //         })
-        //     };
-        // }
+        case FOLLOW: {
+            return {
+                ...state,
+                playersData: state.playersData.map((el) => {
+                    if (el.id === action.userId) {
+                        return {...el, isFollowed: true}
+                    }
+                    return el
+                })
+            };
+        }
+        case UNFOLLOW: {
+            return {
+                ...state, playersData: state.playersData.map((el) => {
+                    if (el.id === action.userId) {
+                        return {...el, isFollowed: false}
+                    }
+                    return el
+                })
+            };
+        }
         // case SET_USERS: {
         //     return {...state, users: action.users}
         // }
@@ -76,6 +78,9 @@ const playersReducer = (state: initialStateType = initialState, action: FriendsR
         // }
         //
 
+        case SET_PLAYER: {
+            return {...state, playerData: action.playerData}
+        }
         case SET_PLAYERS: {
             return {...state, playersData: action.playersData}
         }
@@ -123,6 +128,11 @@ export type SetPlayersACType = {
     userId: number | null
     playersData: Array<LoginDataType>
 }
+export type SetPlayerACType = {
+    type: typeof SET_PLAYER
+    userId: number | null
+    playerData: LoginDataType
+}
 
 export type getUsersThunkCreator = {}
 
@@ -134,6 +144,7 @@ const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
 const SET_PRELOADER = 'SET_PRELOADER';
 const SET_IS_FOLLOWING_IN_PROGRESS = 'SET_IS_FOLLOWING_IN_PROGRESS';
 const SET_PLAYERS = 'SET_PLAYERS';
+const SET_PLAYER = 'SET_PLAYER';
 
 export const followAC = (userId: number): FollowACType => ({type: FOLLOW, userId});
 export const unfollowAC = (userId: number): UnfollowACType => ({type: UNFOLLOW, userId});
@@ -154,7 +165,11 @@ export const setFollowingInProgressAC =
     });
 
 
-export const setPlayersDataAC = (userId: number | null, playersData: LoginDataType[]):SetPlayersACType => ({type: SET_PLAYERS, userId, playersData});
+export const setPlayersDataAC = (userId: number | null, playersData: LoginDataType[]):SetPlayersACType => (
+    {type: SET_PLAYERS, userId, playersData});
+
+export const setPlayerDataAC = (userId: number | null, playerData: LoginDataType):SetPlayerACType => (
+    {type: SET_PLAYER, userId, playerData});
 
 
 export const getUsersThunkCreator = (currentPage: number, pageSize: number)
@@ -178,11 +193,10 @@ export const followThunkCreator = (userId: number)
         async (dispatch, getState) => {
             // dispatch(setFollowingInProgressAC(true, userId));
             const response = await friendsAPI.follow(userId)
-
-            console.log(response)
-            // if (response.data.resultCode == 0) {
-            //     dispatch(followAC(userId));
-            // }
+            if(response.status===200){
+                console.log(response)
+                dispatch(followAC(userId));
+            }
             // dispatch(setFollowingInProgressAC(false, userId));
         }
     )
@@ -192,13 +206,12 @@ export const unFollowThunkCreator = (userId: number)
     : ThunkAction<void, RootState, unknown, FriendsReducerActionTypes> => {
     return (
         (dispatch, getState) => {
-            dispatch(setFollowingInProgressAC(true, userId));
-            friendsAPI.unFollow(userId)
-                .then(response => {
-                    if (response.data.resultCode == 0) {
+            // dispatch(setFollowingInProgressAC(true, userId));
+            friendsAPI.unFollow(userId).then(response => {
+                    if (response.status === 200) {
                         dispatch(unfollowAC(userId));
                     }
-                    dispatch(setFollowingInProgressAC(false, userId));
+                    // dispatch(setFollowingInProgressAC(false, userId));
                 })
         }
     )
@@ -214,6 +227,24 @@ export const getPlayersThunkCreator = (userId: number | null)
                 const response = await friendsAPI.getPlayers()
                 console.log(response)
                 dispatch(setPlayersDataAC(userId, response.data))
+                dispatch(setPreloaderAC(false));
+
+            } catch (error) {
+                dispatch(setPreloaderAC(false));
+            }
+        }
+    )
+}
+
+export const getPlayerThunkCreator = (userId: number | null)
+    : ThunkAction<void, RootState, unknown, FriendsReducerActionTypes> => {
+    return (
+        async (dispatch, getState) => {
+            dispatch(setPreloaderAC(true));
+            try {
+                const response = await friendsAPI.getPlayer(userId)
+                console.log(response)
+                dispatch(setPlayerDataAC(userId, response.data))
                 dispatch(setPreloaderAC(false));
 
             } catch (error) {

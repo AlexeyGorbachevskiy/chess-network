@@ -1,8 +1,7 @@
 import {RootState} from "./redux-store";
 import {ThunkAction} from "redux-thunk";
 import {stopSubmit} from "redux-form";
-import {friendsAPI, profileAPI} from "../api/api";
-import {FriendsReducerActionTypes, setPlayersDataAC, setPreloaderAC} from "./playersReducer";
+import {profileAPI} from "../api/api";
 
 
 type initialStateType = typeof initialState

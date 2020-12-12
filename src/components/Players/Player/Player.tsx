@@ -4,7 +4,7 @@ import {compose} from "redux";
 import {withAuthRedirect} from "../../../utilities/hoc/withAuthRedirect";
 import {NavLink} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {followThunkCreator} from "../../../redux/playersReducer";
+import {followThunkCreator, unFollowThunkCreator} from "../../../redux/playersReducer";
 
 
 type PlayerPropsType = {
@@ -15,29 +15,50 @@ type PlayerPropsType = {
     city: string | null
     country: string | null
     fide: number | null
+    isFollowed: boolean
+    online: boolean
 }
 
 function Player(props: PlayerPropsType) {
-
 
     const dispatch = useDispatch()
     const follow = () => {
         dispatch(followThunkCreator(props.id!))
     }
+    const unfollow = () => {
+        dispatch(unFollowThunkCreator(props.id!))
+    }
+
 
     return (
         <div className={style.player}>
             <div className={style.player_item_wrapper}>
                 <div className={style.player_info_wrapper}>
 
-                    <NavLink to={`/profile/${props.id}`}>
-                        <div className={style.player_avatar}
-                             style={{
-                                 background: `url('${'data:image/png;base64,' + props.photo!}') no-repeat center center`,
-                                 backgroundSize: 'cover'
-                             }}
-                        />
-                    </NavLink>
+
+
+                    {
+                        props.online ?
+                            <NavLink to={`/profile/${props.id}`}>
+                                <div className={style.player_avatar__online}
+                                     style={{
+                                         background: `url('${'data:image/png;base64,' + props.photo!}') no-repeat center center`,
+                                         backgroundSize: 'cover'
+                                     }}
+                                />
+                            </NavLink> :
+
+                            <NavLink to={`/profile/${props.id}`}>
+                                <div className={style.player_avatar}
+                                     style={{
+                                         background: `url('${'data:image/png;base64,' + props.photo!}') no-repeat center center`,
+                                         backgroundSize: 'cover'
+                                     }}
+                                />
+                            </NavLink>
+
+                    }
+                    <div className={style.blind_label}/>
 
                     <div className={style.player_info}>
                         <NavLink to={`/profile/${props.id}`}
@@ -48,7 +69,13 @@ function Player(props: PlayerPropsType) {
 
                 </div>
                 <div className={style.buttons_wrapper}>
-                    <button onClick={follow} className={true ? style.button : style.unfollow_button}>Follow</button>
+                    <button onClick={props.isFollowed ? unfollow : follow} className={props.isFollowed ? style.unfollow_button : style.button }>
+                        {
+                            props.isFollowed ?
+                                'Unfollow':
+                                'Follow'
+                        }
+                    </button>
                     <button className={style.button}>Write message</button>
                 </div>
             </div>

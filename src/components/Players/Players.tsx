@@ -43,8 +43,12 @@ function Players() {
                 </div>
                 {
                     playersData.filter((el) => el.id !== loginData.id).map((el, index) => {
-                        return <Player key={index} id={el.id} name={el.name} surname={el.surname} photo={el.photo}
-                                       city={el.current_city} country={el.current_country} fide={el.fide_rating}/>
+                        return <Player
+                            key={index} id={el.id} name={el.name} surname={el.surname} photo={el.photo}
+                            city={el.current_city} country={el.current_country} fide={el.fide_rating}
+                            isFollowed={el.isFollowed}
+                            online={el.online}
+                        />
                     })
                 }
             </div>

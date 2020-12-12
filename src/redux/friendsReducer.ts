@@ -22,7 +22,7 @@ export type UsersArrayType = {
 }
 
 let initialState = {
-    friendsData: [],
+    friendsData: [] as LoginDataType[],
     isFetching: false,
 }
 
@@ -77,6 +77,16 @@ const friendsReducer = (state: initialStateType = initialState, action: FriendsR
         //             : state.followingInProgress.filter(id => id !== action.userId)
         //     }
         // }
+        case UNFOLLOW: {
+            return {
+                ...state, friendsData: state.friendsData.map((el) => {
+                    if (el.id === action.userId) {
+                        return {...el, isFollowed: false}
+                    }
+                    return el
+                })
+            };
+        }
 
         case SET_PRELOADER: {
             return {...state, isFetching: action.isFetching}
@@ -222,6 +232,22 @@ export const getFriendsThunkCreator = (userId: number | null)
             } catch (error) {
                 dispatch(setPreloaderAC(false));
             }
+        }
+    )
+}
+
+
+export const unFollowFriendThunkCreator = (userId: number)
+    : ThunkAction<void, RootState, unknown, FriendsReducerActionTypes> => {
+    return (
+        (dispatch, getState) => {
+            // dispatch(setFollowingInProgressAC(true, userId));
+            friendsAPI.unFollow(userId).then(response => {
+                if (response.status === 200) {
+                    dispatch(unfollowAC(userId));
+                }
+                // dispatch(setFollowingInProgressAC(false, userId));
+            })
         }
     )
 }

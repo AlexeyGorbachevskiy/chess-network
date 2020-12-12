@@ -1,6 +1,6 @@
 import {RootState} from "./redux-store";
 import {ThunkAction} from "redux-thunk";
-import {authAPI, securityAPI} from "../api/api";
+import {authAPI} from "../api/api";
 
 type initialStateType = typeof initialState
 
@@ -20,6 +20,7 @@ export type LoginDataType = {
     online: boolean,
     photo: string | null,
     study_place: string | null,
+    isFollowed: boolean,
 }
 
 let initialState = {
@@ -38,14 +39,19 @@ let initialState = {
         online: false,
         photo: null as string | null,
         study_place: null as string | null,
+        isFollowed: false,
     },
     isAuth: false,
-    initialized:true,
+    initialized: true,
     isLoading: false,
     captchaUrl: null as string | null,
 }
 
-export type AuthReducerActionTypes = SetAuthUserDataACType | GetCaptchaUrlSuccessACType | SetLoadingACType | InitializedSuccessACType
+export type AuthReducerActionTypes =
+    SetAuthUserDataACType
+    | GetCaptchaUrlSuccessACType
+    | SetLoadingACType
+    | InitializedSuccessACType
 const authReducer = (state: initialStateType = initialState, action: AuthReducerActionTypes): initialStateType => {
 
     switch (action.type) {
@@ -117,20 +123,18 @@ export const initializedSuccessAC = (): InitializedSuccessACType => ({
 export const getAuthInfoThunkCreator = (): ThunkAction<void, RootState, unknown, AuthReducerActionTypes> => {
     return (
         async (dispatch, getState) => {
-            try{
+            try {
                 let response = await authAPI.getAuthInfo();
                 console.log(response)
                 if (response.status === 200) {
                     dispatch(setAuthUserDataAC(response.data, true));
                     dispatch(initializedSuccessAC())
-                }else{
+                } else {
                     dispatch(initializedSuccessAC())
                 }
-            }
-            catch(error){
+            } catch (error) {
                 dispatch(initializedSuccessAC())
             }
-
 
 
         }
@@ -175,7 +179,7 @@ export const loginThunkCreator = (email: string, password: string): ThunkAction<
     )
 };
 
-export const registerThunkCreator = (email: string, password: string): ThunkAction<void, RootState, unknown, any> => {
+export const registerThunkCreator = (email: string, password: string, name: string, surname: string): ThunkAction<void, RootState, unknown, any> => {
     return (
         async (dispatch, getState) => {
 
@@ -183,7 +187,7 @@ export const registerThunkCreator = (email: string, password: string): ThunkActi
             dispatch(setLoadingAC(true))
 
 
-            let response = await authAPI.register(email, password)
+            let response = await authAPI.register(email, password, name, surname)
             if (response.status === 200) {
                 console.log(response.data)
                 dispatch(loginThunkCreator(email, password))
@@ -222,13 +226,14 @@ export const logoutThunkCreator = (): ThunkAction<void, RootState, unknown, Auth
                             online: false,
                             photo: null as string | null,
                             study_place: null as string | null,
+                            isFollowed: false,
                         }, false));
                     }
                     dispatch(initializedSuccessAC())
                     // loader appears
                     dispatch(setLoadingAC(false))
                 })
-                .catch(()=>{
+                .catch(() => {
                     dispatch(initializedSuccessAC())
                     // loader appears
                     dispatch(setLoadingAC(false))

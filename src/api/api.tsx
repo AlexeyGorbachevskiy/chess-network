@@ -30,17 +30,17 @@ export const friendsAPI = {
 
         )
     },
-    unFollow(userId: number) {
-        return (
-            axiosInstance.delete<FollowResponseType>(`follow/${userId}`)
-        )
-    },
     getPlayers() {
         return (
             axiosInstance.get(`api/profile/all`)
         )
     },
-    getFriends(){
+    getPlayer(userId: number | null) {
+        return (
+            axiosInstance.get(`api/profile/${userId}`)
+        )
+    },
+    getFriends() {
         return (
             axiosInstance.get(`api/profile/friends`)
         )
@@ -48,6 +48,11 @@ export const friendsAPI = {
     follow(userId: number) {
         return (
             axiosInstance.post(`api/profile/${userId}/subscribe`)
+        )
+    },
+    unFollow(userId: number) {
+        return (
+            axiosInstance.post(`api/profile/${userId}/unsubscribe`)
         )
     },
 }
@@ -109,7 +114,7 @@ export const profileAPI = {
             axiosInstance.get(`api/post/all/${userId}`)
         )
     },
-    addPost(userId: number|null, postText: string) {
+    addPost(userId: number | null, postText: string) {
         return (
             axiosInstance.post(`api/post/${userId}/add/`, {text: postText})
         )
@@ -144,9 +149,9 @@ export const authAPI = {
             axiosInstance.delete(`api/auth/logout`)
         )
     },
-    register(email: string, password: string) {
+    register(email: string, password: string, name: string, surname: string) {
         return (
-            axiosInstance.get(`api/auth/register?email=${email}&password=${password}`)
+            axiosInstance.get(`api/auth/register?email=${email}&password=${password}&name=${name}&surname=${surname}`)
         )
     },
 
@@ -159,6 +164,31 @@ export const securityAPI = {
             axiosInstance.get<{ url: string }>(`security/get-captcha-url`)
         )
     },
+}
+
+export const newsAPI = {
+
+    getNews() {
+        return (
+            axiosInstance.get(`api/news/all`)
+        )
+    },
+    getFullNew(newId: number) {
+        return (
+            axiosInstance.get(`api/news/${newId}`)
+        )
+    },
+    getFullNewComments(newId: number) {
+        return (
+            axiosInstance.get(`api/comments/${newId}`)
+        )
+    },
+    addNewComment(newId: number, text: string) {
+        return (
+            axiosInstance.post(`api/comments/${newId}/add`, {text})
+        )
+    },
+
 }
 
 

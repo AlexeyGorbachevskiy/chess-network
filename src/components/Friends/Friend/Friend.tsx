@@ -1,44 +1,65 @@
 import React from 'react';
 import style from './Friend.module.css';
-import avatar from "../../../images/profile/kirill.jpg";
-import {useSelector} from "react-redux";
-import {RootState} from "../../../redux/redux-store";
-import {LoginDataType} from "../../../redux/authReducer";
+import {useDispatch} from "react-redux";
+import {unFollowFriendThunkCreator} from "../../../redux/friendsReducer";
+import {NavLink} from "react-router-dom";
 
 
-
-type FriendPropsType={
-    name:string | null
-    surname:string|null
-    photo:string | null
-    city:string | null
-    country:string | null
+type FriendPropsType = {
+    friendId: number | null
+    name: string | null
+    surname: string | null
+    photo: string | null
+    city: string | null
+    country: string | null
+    online: boolean
 }
 
-function Friend(props:FriendPropsType) {
+function Friend(props: FriendPropsType) {
 
+    const dispatch = useDispatch();
 
+    const unfollow = () => {
+        dispatch(unFollowFriendThunkCreator(props.friendId!))
+    }
     return (
         <div className={style.player}>
             <div className={style.player_item_wrapper}>
                 <div className={style.player_info_wrapper}>
 
-                    <div className={style.player_avatar}
-                        style={{
-                        background: `url('${'data:image/png;base64,' + props.photo}') no-repeat center center`,
-                        backgroundSize: 'cover'
-                    }}
-                        />
+                    {
+                        props.online ?
+                            <NavLink to={`/profile/${props.friendId}`}>
+                                <div className={style.player_avatar__online}
+                                     style={{
+                                         background: `url('${'data:image/png;base64,' + props.photo!}') no-repeat center center`,
+                                         backgroundSize: 'cover'
+                                     }}
+                                />
+                            </NavLink> :
 
+                            <NavLink to={`/profile/${props.friendId}`}>
+                                <div className={style.player_avatar}
+                                     style={{
+                                         background: `url('${'data:image/png;base64,' + props.photo!}') no-repeat center center`,
+                                         backgroundSize: 'cover'
+                                     }}
+                                />
+                            </NavLink>
+
+                    }
+                    <div className={style.blind_label}/>
                     <div className={style.player_info}>
-                        <p className={style.player_fullName}>{props.name+' '+ props.surname}</p>
-                        <p className={style.player_location}>{props.city + ', '+ props.country}</p>
+                        <NavLink to={`/profile/${props.friendId}`} className={style.player_fullName}>
+                            {props.name + ' ' + props.surname}
+                        </NavLink>
+                        <p className={style.player_location}>{props.city + ', ' + props.country}</p>
                         <p className={style.write_message_link}>Write message</p>
                     </div>
 
                 </div>
                 <div className={style.buttons_wrapper}>
-                    <button className={style.button}>Unfollow</button>
+                    <button onClick={unfollow} className={style.button}>Unfollow</button>
                 </div>
             </div>
         </div>

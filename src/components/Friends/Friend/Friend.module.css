@@ -39,6 +39,37 @@
     border-radius: 50%;
 }
 
+.player_avatar__online {
+    position: relative;
+    margin: 0 12px 0 0;
+    cursor: pointer;
+    width: 80px;
+    height: 80px;
+    /*background-size: contain;*/
+    border-radius: 50%;
+}
+
+.player_avatar__online::after {
+    left: 65px;
+    border: 2px solid #fff;
+    content: '';
+    position: absolute;
+    top: 60px;
+    width: 8px;
+    height: 8px;
+    background-color: #08b308;
+    border-radius: 50%;
+}
+
+.blind_label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    clip: rect(1px, 1px, 1px, 1px);
+    opacity: 0;
+    overflow: hidden;
+}
+
 .buttons_wrapper {
     display: flex;
     flex-direction: column;

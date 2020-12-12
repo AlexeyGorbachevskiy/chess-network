@@ -1,5 +1,5 @@
 import {NavLink} from "react-router-dom";
-import React from "react";
+import React, {useEffect, useRef} from "react";
 import obj from './Header.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/redux-store";
@@ -14,8 +14,9 @@ export function Header() {
     const logout=()=>{
         dispatch(logoutThunkCreator())
     }
+
     return (
-        <header className={obj.header}>
+        <header  className={obj.header}>
             <div className={obj.wrap}>
                 <div className={`${obj.logo}`}>
                     <NavLink className={obj.logo_link} to='/profile'>

@@ -4,15 +4,16 @@ import avatar from '../../../../images/profile/dud.jpg';
 
 
 export type PostPropsType = {
-    id:number,
+    id: number,
     date: string,
     text: string,
-    author:string,
-    deleteComment: (id:number) => void
+    author: number,
+    deleteComment: (id: number) => void
 }
 
 
 function FullNewComment(props: PostPropsType) {
+
 
     const deleteComment = () => {
         props.deleteComment(props.id)
@@ -45,7 +46,7 @@ function FullNewComment(props: PostPropsType) {
 
             <div className={style.wall_post_text}>
                 {props.text}
-                <p onClick={deleteComment}  className={style.delete_btn}>Delete comment</p>
+                <p onClick={deleteComment} className={style.delete_btn}>Delete comment</p>
             </div>
         </div>
     );

@@ -1,21 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {compose} from 'redux';
 import style from './Posts.module.css';
 import Post from "./Post/Post";
 import {withAuthRedirect} from "../../utilities/hoc/withAuthRedirect";
 import {LoginDataType} from "../../redux/authReducer";
-import {
-    addPostThunkCreator,
-    deletePostThunkCreator,
-    getPostsThunkCreator,
-    PostsDataType
-} from "../../redux/profileReducer";
+import {addPostThunkCreator, deletePostThunkCreator, PostsDataType} from "../../redux/profileReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/redux-store";
 
 type PostsPropsType = {
     userId: string | null
-    targetUser: LoginDataType
+    playerData: LoginDataType
     playersData: LoginDataType[]
 }
 
@@ -23,6 +18,7 @@ function Posts(props: PostsPropsType) {
 
     const [value, setValue] = useState('');
     const postsData = useSelector<RootState, PostsDataType[]>(state => state.profilePage.postsData);
+
 
     const deletePost = (id: number) => {
         dispatch(deletePostThunkCreator(id))
@@ -34,14 +30,9 @@ function Posts(props: PostsPropsType) {
         if (value.trim().length === 0) {
             return
         }
-        dispatch(addPostThunkCreator(props.targetUser.id, value))
+        dispatch(addPostThunkCreator(props.playerData.id, value))
         setValue('');
     }
-
-
-    useEffect(() => {
-        dispatch(getPostsThunkCreator(props.userId))
-    }, [])
 
     return (
         <div className={style.posts}>
@@ -58,7 +49,10 @@ function Posts(props: PostsPropsType) {
             <div>
                 {postsData.map((el, index) => {
                     return (
-                        <Post targetUser={props.targetUser} id={el.id} deletePost={deletePost} key={index}
+                        <Post key={index}
+                              id={el.id}
+                              playerData={props.playerData}
+                              deletePost={deletePost}
                               date={el.time}
                               text={el.text}
                               playersData={props.playersData}
