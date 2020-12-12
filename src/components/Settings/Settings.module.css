@@ -3,12 +3,6 @@
     padding: 0;
 }
 
-.avatar {
-    width: 400px;
-    height: 400px;
-    /*background-size: contain;*/
-    border-radius: 2px;
-}
 
 .settings {
     margin-top: 80px;

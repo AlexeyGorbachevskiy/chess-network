@@ -63,7 +63,7 @@ function Profile() {
                     <div
                         style={{
                             background: `url('${'data:image/png;base64,' + playerData.photo}') no-repeat center center`,
-                            backgroundSize: 'contain'
+                            backgroundSize: 'cover'
                         }}
                         className={style.avatar}
                     />
