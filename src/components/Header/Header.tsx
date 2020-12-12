@@ -32,6 +32,7 @@ export function Header() {
                     <NavLink activeClassName={obj.link__active} className={obj.link} to='/messages'>Messages</NavLink>
                     <NavLink activeClassName={obj.link__active} className={obj.link} to='/news'>News</NavLink>
                     <NavLink activeClassName={obj.link__active} className={obj.link} to='/play-chess'>Play</NavLink>
+                    <NavLink activeClassName={obj.link__active} className={obj.link} to='/settings'>Settings</NavLink>
                         {
                             isAuth
                                 ?

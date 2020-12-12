@@ -1,0 +1,149 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.avatar {
+    width: 400px;
+    height: 400px;
+    /*background-size: contain;*/
+    border-radius: 2px;
+}
+
+.settings {
+    margin-top: 80px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow-x: hidden;
+}
+
+
+.main_wrapper{
+    padding: 0 20px 18px;
+    width: 550px;
+}
+.main_header{
+    background: #fafbfc;
+    padding: 0 20px;
+    border-bottom: 1px solid #e7e8ec;
+    border-radius: 4px 4px 0 0;
+    display: block;
+    height: 54px;
+    line-height: 54px;
+    font-size: 16px;
+    outline: 0;
+    color: #000000;
+    font-family: Arial,Georgia,sans-serif;
+}
+
+.main_header__title{
+
+}
+
+.settings_wrapper {
+    /*margin-top: 100px;*/
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+
+    background-color: #fff;
+    padding: 0 20px 5px;
+    border-bottom: 1px solid #e7e8ec;
+}
+
+.settings_item_wrapper {
+    padding: 15px 0 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.field_name_wrapper{
+    padding: 0 10px 0 0;
+}
+
+.input_wrapper{
+
+}
+.photo_input{
+    cursor: pointer;
+}
+
+.clear_photo{
+    cursor: pointer;
+    width: 60px;
+    padding: 1px 0;
+}
+
+.field_name{
+    font-family: Arial, Georgia, sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: #656565;
+    line-height: 16px;
+    width: 80px;
+}
+.field_name_photo{
+    font-family: Arial, Georgia, sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: #656565;
+    line-height: 16px;
+    width: 100px;
+}
+
+.input{
+    padding: 7px 9px 7px;
+    border-radius: 3px;
+    outline: none;
+    width: 300px;
+    border: 1px solid #d3d9de;
+}
+
+
+.save_btn_wrapper{
+    margin: 20px 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.save_btn {
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 4px;
+    padding-left: 2px;
+    padding-right: 2px;
+    height: 30px;
+    width: 120px;
+    background-color: #5181b8;
+    border: 0;
+    outline: none;
+    color: #fff;
+    font-family: Arial, Georgia, sans-serif;
+    font-size: 12.5px;
+}
+
+.save_btn:hover {
+    opacity: .88;
+}
+
+.save_btn:active{
+    padding: 9px 16px 7px;
+}
+
+
+
+
+
+
+

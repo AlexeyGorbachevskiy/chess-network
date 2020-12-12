@@ -18,10 +18,12 @@ import {
 import {getPostsThunkCreator} from "../../redux/profileReducer";
 import Posts from "../Posts/Posts";
 import {getFriendsThunkCreator, setFriendsDataAC} from "../../redux/friendsReducer";
+import {NavLink} from "react-router-dom";
 
 
 function Profile() {
 
+    const loginData = useSelector<RootState, LoginDataType>(state => state.auth.data);
     const friendsData = useSelector<RootState, any>(state => state.friendsPage.friendsData);
     const isAuth = useSelector<RootState, boolean>(state => state.auth.isAuth);
     const playerData = useSelector<RootState, LoginDataType>(state => state.playersPage.playerData);
@@ -52,6 +54,7 @@ function Profile() {
         )
     }
 
+
     return (
         <section className={style.profile}>
 
@@ -60,19 +63,31 @@ function Profile() {
                     <div
                         style={{
                             background: `url('${'data:image/png;base64,' + playerData.photo}') no-repeat center center`,
-                            backgroundSize: 'cover'
+                            backgroundSize: 'contain'
                         }}
                         className={style.avatar}
                     />
 
-                    <div className={style.write_msg_btn_wrapper}>
-                        <button className={style.write_msg_btn}>Write message</button>
-                    </div>
+                    {
+                        loginData.id!==+userId ?
+                            <>
+                                <div className={style.write_msg_btn_wrapper}>
+                                    <button className={style.write_msg_btn}>Write message</button>
+                                </div>
+                                <div className={style.add_friend_btn_wrapper}>
+                                    <button className={style.add_friend_btn}>Follow</button>
+                                </div>
+                            </>
+                            :
+                            <div className={style.add_friend_btn_wrapper}>
+                                <NavLink to={'/settings'}>
+                                    <button className={style.add_friend_btn}>Edit Profile</button>
+                                </NavLink>
+                            </div>
+
+                    }
 
 
-                    <div className={style.add_friend_btn_wrapper}>
-                        <button className={style.add_friend_btn}>Follow</button>
-                    </div>
                 </div>
 
                 <div className={style.friend_block}>

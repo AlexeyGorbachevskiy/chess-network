@@ -16,6 +16,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getAuthInfoThunkCreator, initializedSuccessAC} from "./redux/authReducer";
 import {RootState} from "./redux/redux-store";
 import Preloader from "./components/Common/preloader/Preloader";
+import Settings from "./components/Settings/Settings";
 
 export function App() {
 
@@ -53,6 +54,7 @@ export function App() {
             <Route path='/news/:newId' render={() => <FullNew/>}/>
             <Route exact path='/messages' render={() => <Messages/>}/>
             <Route path='/messageBody/:id' render={() => <MessageBody/>}/>
+            <Route path='/settings' render={() => <Settings/>}/>
 
         </div>
 
