@@ -7,8 +7,8 @@ import {RootState} from "../../redux/redux-store";
 
 
 export function Login() {
-    const [email,setEmail]=useState('saimon@mail.ru');
-    const [password,setPassword]=useState('awesome');
+    const [email,setEmail]=useState('');
+    const [password,setPassword]=useState('');
     const dispatch = useDispatch();
 
     const login=()=>{

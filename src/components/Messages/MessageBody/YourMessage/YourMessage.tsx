@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './YourMessage.module.css';
-import avatar from "../../../../images/profile/saimon.jpg";
+import avatar from "../../../../images/profile/harik.jpg";
 
 
 

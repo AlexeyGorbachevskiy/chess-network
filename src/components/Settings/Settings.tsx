@@ -5,12 +5,13 @@ import {withAuthRedirect} from "../../utilities/hoc/withAuthRedirect";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/redux-store";
 import {LoginDataType} from "../../redux/authReducer";
-import {editProfileThunkCreator} from "../../redux/profileReducer";
+import {editProfileThunkCreator, setIsProfileEditedAC} from "../../redux/profileReducer";
 
 
 function Settings() {
 
     const loginData = useSelector<RootState, LoginDataType>(state => state.auth.data);
+    const isProfileEdited = useSelector<RootState, boolean>(state => state.profilePage.isProfileEdited);
 
     const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -86,12 +87,25 @@ function Settings() {
         }))
     }
 
+    if (isProfileEdited) {
+        setTimeout(() => {
+            dispatch(setIsProfileEditedAC(false))
+        }, 2000)
+    }
+
     return (
         <section className={style.settings}>
             <div className={style.main_wrapper}>
                 <div className={style.main_header}>
                     <span className={style.main_header__title}>Settings</span>
                 </div>
+
+                {
+                    isProfileEdited &&
+                    <div className={style.alert}>
+                        Data was successfully changed.
+                    </div>
+                }
 
                 <div className={style.settings_wrapper}>
                     <div className={style.settings_item_wrapper}>

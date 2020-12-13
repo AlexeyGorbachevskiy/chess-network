@@ -130,7 +130,7 @@ export const profileAPI = {
         )
     },
     editProfile(editedData: EditProfileType){
-        axiosInstance.post(`api/profile/edit/`, editedData)
+       return axiosInstance.post(`api/profile/edit/`,editedData)
     }
 }
 

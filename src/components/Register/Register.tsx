@@ -8,10 +8,10 @@ import {RootState} from "../../redux/redux-store";
 
 export function Register() {
 
-    const [email,setEmail]=useState('agorbachevskiy@gmail.com');
-    const [password,setPassword]=useState('agorbachevskiy@gmail.com');
-    const [name,setName]=useState('Alexey');
-    const [surname,setSurname]=useState('Gorbachevskiy');
+    const [email,setEmail]=useState('');
+    const [password,setPassword]=useState('');
+    const [name,setName]=useState('');
+    const [surname,setSurname]=useState('');
     const dispatch = useDispatch();
 
     const register=()=>{

@@ -36,6 +36,22 @@
 .main_header__title{
 
 }
+.alert{
+    margin-top: 100px;
+    margin-left: 90px;
+    /*background-color: #08b308;*/
+    background-color: #5181b8;
+    position: fixed;
+    font-family: Arial, Georgia, sans-serif;
+    font-size: 20px;
+    height: 70px;
+    width: 350px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
 
 .settings_wrapper {
     /*margin-top: 100px;*/

@@ -35,7 +35,8 @@ let initialState = {
     postsData: [] as Array<PostsDataType>,
     newPostText: '' as string,
     profile: null as ProfileType | any,
-    status: '' as string
+    status: '' as string,
+    isProfileEdited: false
 }
 
 export type ProfileReducerActionTypes =
@@ -45,6 +46,7 @@ export type ProfileReducerActionTypes =
     | SavePhotoSuccessACType
     | DeletePostACType
     | SetPostsDataACType
+    | SetProfileEditedACType
 
 
 const profileReducer = (state: initialStateType = initialState, action: ProfileReducerActionTypes): initialStateType => {
@@ -85,9 +87,15 @@ const profileReducer = (state: initialStateType = initialState, action: ProfileR
 
             return {
                 ...state,
-                postsData: action.postsData.reverse()
+                postsData: action.postsData
             };
+        }
+        case SET_PROFILE_EDITED: {
 
+            return {
+                ...state,
+                isProfileEdited: action.isProfileEdited
+            };
         }
         default:
             return state
@@ -137,6 +145,8 @@ const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 const SAVE_PHOTO_SUCCESS = 'SAVE_PHOTO_SUCCESS';
 const SET_POSTS_DATA = 'SET_POSTS_DATA';
+const SET_PROFILE_EDITED = 'SET_PROFILE_EDITED';
+
 export const addPostActionCreator = (newPost: PostsDataType): AddPostACType => ({type: ADD_POST, newPost});
 
 export const deletePostActionCreator = (postId: number): DeletePostACType => ({type: DELETE_POST, postId});
@@ -299,13 +309,33 @@ export type EditProfileType = {
 
 }
 
+export type SetProfileEditedACType = {
+    type: typeof SET_PROFILE_EDITED,
+    isProfileEdited: boolean
+}
+
+export const setIsProfileEditedAC = (isProfileEdited: boolean): SetProfileEditedACType => ({
+    type: SET_PROFILE_EDITED,
+    isProfileEdited
+});
 
 export const editProfileThunkCreator = (editedData: EditProfileType)
     : ThunkAction<void, RootState, unknown, ProfileReducerActionTypes> => {
     return (
         async (dispatch, getState) => {
-            let response = await profileAPI.editProfile(editedData)
-            console.log(response)
+
+            try {
+                let response = await profileAPI.editProfile(editedData)
+                console.log(response)
+                if (response.status === 200) {
+                    dispatch(setIsProfileEditedAC(true))
+                }
+
+            } catch (error) {
+
+            }
+
+
         }
     )
 }
