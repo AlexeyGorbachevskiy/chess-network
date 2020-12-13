@@ -1,6 +1,6 @@
 import {ThunkAction} from "redux-thunk";
 import {RootState} from "./redux-store";
-import {friendsAPI, newsAPI} from "../api/api";
+import {newsAPI} from "../api/api";
 
 type initialStateType = typeof initialState
 
@@ -10,7 +10,7 @@ export type NewsDataType = {
     tag: string
     title: string
     summary: string
-    text: string
+    text: string[]
     time: string
     photo: string
 }
@@ -20,6 +20,9 @@ export type NewCommentDataType = {
     author_id: number,
     text: string,
     time: string
+    name: string
+    surname:string
+    photo: string
 }
 export type SetPreloaderACType = {
     type: typeof SET_PRELOADER
@@ -37,7 +40,8 @@ export type FriendsReducerActionTypes =
     | SetPreloaderACType
     | SetFullNewACType
     | SetFullNewCommentACType
-    | AddCommentACType;
+    | AddCommentACType
+    | DeleteCommentACType;
 const newsReducer = (state: initialStateType = initialState, action: FriendsReducerActionTypes): initialStateType => {
 
     switch (action.type) {
@@ -52,10 +56,13 @@ const newsReducer = (state: initialStateType = initialState, action: FriendsRedu
             return {...state, isFetching: action.isFetching}
         }
         case SET_NEW_COMMENTS: {
-            return {...state, newCommentData: [...state.newCommentData]}
+            return {...state, newCommentData: [...action.newCommentData]}
         }
         case ADD_NEW_COMMENT: {
-            return {...state, newCommentData: [...state.newCommentData, action.newCommentData]}
+            return {...state, newCommentData: [action.newCommentData, ...state.newCommentData]}
+        }
+        case DELETE_NEW_COMMENT: {
+            return {...state, newCommentData: [...state.newCommentData.filter((el)=>el.id!==action.newId)]}
         }
         default:
             return state
@@ -79,6 +86,10 @@ export type AddCommentACType = {
     type: typeof ADD_NEW_COMMENT
     newCommentData: NewCommentDataType
 }
+export type DeleteCommentACType = {
+    type: typeof DELETE_NEW_COMMENT
+    newId: number
+}
 
 
 export type getUsersThunkCreator = {}
@@ -88,6 +99,7 @@ const SET_NEW = 'SET_NEW';
 const SET_PRELOADER = 'SET_PRELOADER';
 const SET_NEW_COMMENTS = 'SET_NEW_COMMENTS';
 const ADD_NEW_COMMENT = 'ADD_NEW_COMMENT';
+const DELETE_NEW_COMMENT = 'DELETE_NEW_COMMENT';
 
 
 export const setNewsDataAC = (newsData: NewsDataType[]): SetNewsACType => (
@@ -99,7 +111,8 @@ export const setFullNewCommentDataAC = (newCommentData: NewCommentDataType[]): S
 export const setPreloaderAC = (isFetching: boolean): SetPreloaderACType => ({type: SET_PRELOADER, isFetching});
 export const addNewCommentDataAC = (newCommentData: NewCommentDataType): AddCommentACType => (
     {type: ADD_NEW_COMMENT, newCommentData});
-
+export const deleteCommentAC = (newId: number): DeleteCommentACType => (
+    {type: DELETE_NEW_COMMENT, newId});
 
 export const getNewsThunkCreator = ()
     : ThunkAction<void, RootState, unknown, FriendsReducerActionTypes> => {
@@ -144,7 +157,6 @@ export const getFullNewCommentsThunkCreator = (newId: number)
             dispatch(setPreloaderAC(true));
             try {
                 const response = await newsAPI.getFullNewComments(newId)
-                console.log(response)
                 dispatch(setFullNewCommentDataAC(response.data))
                 dispatch(setPreloaderAC(false));
 
@@ -155,15 +167,33 @@ export const getFullNewCommentsThunkCreator = (newId: number)
     )
 }
 
-export const addNewCommentThunkCreator = (newId: number,text:string)
+export const addNewCommentThunkCreator = (newId: number, text: string)
     : ThunkAction<void, RootState, unknown, FriendsReducerActionTypes> => {
     return (
         async (dispatch, getState) => {
             dispatch(setPreloaderAC(true));
             try {
-                const response = await newsAPI.addNewComment(newId,text)
+                const response = await newsAPI.addNewComment(newId, text)
                 console.log(response)
                 dispatch(addNewCommentDataAC(response.data))
+                dispatch(setPreloaderAC(false));
+
+            } catch (error) {
+                dispatch(setPreloaderAC(false));
+            }
+        }
+    )
+}
+
+export const deleteCommentThunkCreator = (newId: number)
+    : ThunkAction<void, RootState, unknown, FriendsReducerActionTypes> => {
+    return (
+        async (dispatch, getState) => {
+            dispatch(setPreloaderAC(true));
+            try {
+                const response = await newsAPI.deleteComment(newId)
+                console.log(response)
+                dispatch(deleteCommentAC(newId))
                 dispatch(setPreloaderAC(false));
 
             } catch (error) {

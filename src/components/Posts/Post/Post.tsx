@@ -3,6 +3,7 @@ import {compose} from 'redux';
 import style from './Post.module.css';
 import {LoginDataType} from "../../../redux/authReducer";
 import {withAuthRedirect} from "../../../utilities/hoc/withAuthRedirect";
+import {NavLink} from "react-router-dom";
 
 
 export type PostPropsType = {
@@ -28,19 +29,23 @@ function Post(props: PostPropsType) {
 
             <div className={style.post_header}>
 
-                <div
-                    style={{
-                        background: `url('${'data:image/png;base64,' + authorData!.photo}') no-repeat center center`,
-                        backgroundSize: 'cover'
-                    }}
-                    className={authorData!.online ? style.avatar__online : style.avatar}
-                />
+                <NavLink to={`/profile/${props.authorId}`}>
+                    <div
+                        style={{
+                            background: `url('${authorData!.photo}') no-repeat center center`,
+                            backgroundSize: 'cover'
+                        }}
+                        className={authorData!.online ? style.avatar__online : style.avatar}
+                    />
+                </NavLink>
                 <div className={style.blind_label}/>
 
                 <div className={style.post_title_wrapper}>
-                    <div className={style.post_title}>
-                        {authorData!.name + ' ' + authorData!.surname}
-                    </div>
+                    <NavLink to={`/profile/${props.authorId}`} className={style.post_title}>
+                        <div className={style.post_title}>
+                            {authorData!.name + ' ' + authorData!.surname}
+                        </div>
+                    </NavLink>
 
                     <div className={style.post_date}>
                         {props.date}

@@ -4,20 +4,27 @@ import Friend from "./Friend/Friend";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../utilities/hoc/withAuthRedirect";
 import {useDispatch, useSelector} from "react-redux";
-import {getFriendsThunkCreator, setFriendsDataAC} from "../../redux/friendsReducer";
+import {getFriendsByIdThunkCreator, getFriendsThunkCreator, setFriendsDataAC} from "../../redux/friendsReducer";
 import {RootState} from "../../redux/redux-store";
 import {LoginDataType} from "../../redux/authReducer";
 import Preloader from "../Common/preloader/Preloader";
+import {useParams} from "react-router";
 
 
 function Friends() {
 
     const isFetching = useSelector<RootState, boolean>(state => state.friendsPage.isFetching);
-    const userId = useSelector<RootState, number | null>(state => state.auth.data.id);
+    const loggedUserId = useSelector<RootState, number | null>(state => state.auth.data.id);
     const friendsData = useSelector<RootState, LoginDataType[]>(state => state.friendsPage.friendsData);
     const dispatch = useDispatch();
+    const {userId} = useParams();
     useEffect(() => {
-        dispatch(getFriendsThunkCreator(userId));
+        if(userId){
+            dispatch(getFriendsByIdThunkCreator(userId));
+        }
+        else{
+            dispatch(getFriendsThunkCreator());
+        }
         return () => {
             dispatch(setFriendsDataAC([]))
         }
@@ -52,6 +59,7 @@ function Friends() {
                                     city={el.current_city}
                                     country={el.current_country}
                                     online={el.online}
+                                    loggedUserId={loggedUserId}
                             />
                         )
                     })

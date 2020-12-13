@@ -3,6 +3,7 @@ import style from './Friend.module.css';
 import {useDispatch} from "react-redux";
 import {unFollowFriendThunkCreator} from "../../../redux/friendsReducer";
 import {NavLink} from "react-router-dom";
+import {useParams} from "react-router";
 
 
 type FriendPropsType = {
@@ -13,11 +14,14 @@ type FriendPropsType = {
     city: string | null
     country: string | null
     online: boolean
+    loggedUserId: number | null
 }
 
 function Friend(props: FriendPropsType) {
 
     const dispatch = useDispatch();
+    const {userId} = useParams();
+
 
     const unfollow = () => {
         dispatch(unFollowFriendThunkCreator(props.friendId!))
@@ -32,7 +36,7 @@ function Friend(props: FriendPropsType) {
                             <NavLink to={`/profile/${props.friendId}`}>
                                 <div className={style.player_avatar__online}
                                      style={{
-                                         background: `url('${'data:image/png;base64,' + props.photo!}') no-repeat center center`,
+                                         background: `url('${props.photo!}') no-repeat center center`,
                                          backgroundSize: 'cover'
                                      }}
                                 />
@@ -41,7 +45,7 @@ function Friend(props: FriendPropsType) {
                             <NavLink to={`/profile/${props.friendId}`}>
                                 <div className={style.player_avatar}
                                      style={{
-                                         background: `url('${'data:image/png;base64,' + props.photo!}') no-repeat center center`,
+                                         background: `url('${props.photo!}') no-repeat center center`,
                                          backgroundSize: 'cover'
                                      }}
                                 />
@@ -58,9 +62,13 @@ function Friend(props: FriendPropsType) {
                     </div>
 
                 </div>
-                <div className={style.buttons_wrapper}>
-                    <button onClick={unfollow} className={style.button}>Unfollow</button>
-                </div>
+                {
+                    (props.loggedUserId === +userId || !userId )   &&
+                    <div className={style.buttons_wrapper}>
+                        <button onClick={unfollow} className={style.button}>Unfollow</button>
+                    </div>
+                }
+
             </div>
         </div>
     );

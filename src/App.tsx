@@ -1,7 +1,7 @@
 import React, {useEffect, useRef} from 'react';
 import './App.css';
 import {Header} from "./components/Header/Header";
-import {Redirect, Route} from "react-router";
+import {Redirect, Route, useParams} from "react-router";
 import Profile from "./components/Profile/Profile";
 import {Login} from "./components/Login/Login";
 import {Register} from "./components/Register/Register";
@@ -17,9 +17,9 @@ import {getAuthInfoThunkCreator, initializedSuccessAC} from "./redux/authReducer
 import {RootState} from "./redux/redux-store";
 import Preloader from "./components/Common/preloader/Preloader";
 import Settings from "./components/Settings/Settings";
+import UserFriends from "./components/Friends/Friends";
 
 export function App() {
-
     const isAuth = useSelector<RootState, boolean>(state => state.auth.isAuth);
     const initialized = useSelector<RootState, boolean>(state => state.app.initialized);
     const dispatch = useDispatch();
@@ -49,7 +49,7 @@ export function App() {
             <Route path='/register' render={() => <Register/>}/>
             <Route path='/play-chess' render={() => <Play/>}/>
             <Route path='/players' render={() => <Players/>}/>
-            <Route path='/friends' render={() => <Friends/>}/>
+            <Route path='/friends/:userId?' render={() => <Friends/>}/>
             <Route exact path='/news' render={() => <News/>}/>
             <Route path='/news/:newId' render={() => <FullNew/>}/>
             <Route exact path='/messages' render={() => <Messages/>}/>

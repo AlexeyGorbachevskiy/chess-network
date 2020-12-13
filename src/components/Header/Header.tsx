@@ -4,6 +4,7 @@ import obj from './Header.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/redux-store";
 import {LoginDataType, logoutThunkCreator} from "../../redux/authReducer";
+import {useParams} from "react-router";
 
 
 
@@ -28,7 +29,7 @@ export function Header() {
                 <div className={obj.links_wrapper}>
                     <NavLink activeClassName={obj.link__active} className={obj.link} to={`/profile/${loginData.id}`}>Profile</NavLink>
                     <NavLink activeClassName={obj.link__active} className={obj.link} to='/players'>Players</NavLink>
-                    <NavLink activeClassName={obj.link__active} className={obj.link} to='/friends'>Friends</NavLink>
+                    <NavLink activeClassName={obj.link__active} className={obj.link} to={`/friends`}>Friends</NavLink>
                     <NavLink activeClassName={obj.link__active} className={obj.link} to='/messages'>Messages</NavLink>
                     <NavLink activeClassName={obj.link__active} className={obj.link} to='/news'>News</NavLink>
                     <NavLink activeClassName={obj.link__active} className={obj.link} to='/play-chess'>Play</NavLink>

@@ -23,7 +23,7 @@ function New(props: NewsPropsType) {
                 <NavLink className={style.new_avatar}
                          to={`/news/${props.id}`}
                          style={{
-                             background: `url('${'data:image/png;base64,' + props.photo}') no-repeat center center`,
+                             background: `url('${props.photo}') no-repeat center center`,
                              backgroundSize: 'cover'
                          }}>
                     <div className={style.new_avatar_blackout}>
@@ -38,7 +38,7 @@ function New(props: NewsPropsType) {
                         {props.title}
                     </NavLink>
                     <div className={style.new_brief_description}>
-                        {props.text.slice(0,90)}...
+                        {props.summary.slice(0,90)}...
                     </div>
 
                 </div>

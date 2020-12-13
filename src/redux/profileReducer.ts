@@ -226,11 +226,7 @@ export const saveProfileThunkCreator = (formData: ProfileType)
 }
 
 
-
-
-
-
-export const getPostsThunkCreator = (userId:string|null)
+export const getPostsThunkCreator = (userId: string | null)
     : ThunkAction<void, RootState, unknown, ProfileReducerActionTypes> => {
     return (
         async (dispatch, getState) => {
@@ -249,7 +245,7 @@ export const getPostsThunkCreator = (userId:string|null)
 }
 
 
-export const addPostThunkCreator = (userId: number|null, postText: string)
+export const addPostThunkCreator = (userId: number | null, postText: string)
     : ThunkAction<void, RootState, unknown, ProfileReducerActionTypes> => {
     return (
         async (dispatch, getState) => {
@@ -287,6 +283,32 @@ export const deletePostThunkCreator = (postId: number)
     )
 }
 
+
+export type EditProfileType = {
+    name: string
+    surname: string
+    photo: string
+    birthday: string
+    current_city: string
+    current_country: string
+    study_place: string
+    chess_level: string
+    fide_rating: string
+    about: string
+    hobbies: string
+
+}
+
+
+export const editProfileThunkCreator = (editedData: EditProfileType)
+    : ThunkAction<void, RootState, unknown, ProfileReducerActionTypes> => {
+    return (
+        async (dispatch, getState) => {
+            let response = await profileAPI.editProfile(editedData)
+            console.log(response)
+        }
+    )
+}
 
 
 export default profileReducer;

@@ -1,8 +1,6 @@
 import React, {useEffect} from 'react';
 import {compose} from 'redux';
 import style from './Profile.module.css';
-import kirill from '../../images/profile/kirill.jpg';
-import a2 from '../../images/profile/2.jpg';
 import {withAuthRedirect} from "../../utilities/hoc/withAuthRedirect";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/redux-store";
@@ -10,15 +8,16 @@ import {LoginDataType} from "../../redux/authReducer";
 import Preloader from "../Common/preloader/Preloader";
 import {useParams} from "react-router";
 import {
+    followThunkCreator,
     getPlayersThunkCreator,
     getPlayerThunkCreator,
     setPlayerDataAC,
-    setPlayersDataAC
+    setPlayersDataAC, unFollowThunkCreator
 } from "../../redux/playersReducer";
 import {getPostsThunkCreator} from "../../redux/profileReducer";
 import Posts from "../Posts/Posts";
-import {getFriendsThunkCreator, setFriendsDataAC} from "../../redux/friendsReducer";
-import {NavLink} from "react-router-dom";
+import {getFriendsByIdThunkCreator, setFriendsDataAC} from "../../redux/friendsReducer";
+import {NavLink, Redirect} from "react-router-dom";
 
 
 function Profile() {
@@ -28,14 +27,15 @@ function Profile() {
     const isAuth = useSelector<RootState, boolean>(state => state.auth.isAuth);
     const playerData = useSelector<RootState, LoginDataType>(state => state.playersPage.playerData);
     const playersData = useSelector<RootState, LoginDataType[]>(state => state.playersPage.playersData);
-    const {userId} = useParams();
+    let {userId} = useParams();
     const dispatch = useDispatch();
+
 
     useEffect(() => {
         dispatch(getPlayerThunkCreator(userId));
         dispatch(getPlayersThunkCreator(userId));
         dispatch(getPostsThunkCreator(userId))
-        dispatch(getFriendsThunkCreator(userId));
+        dispatch(getFriendsByIdThunkCreator(userId));
 
         return () => {
             dispatch(setPlayerDataAC(null, {} as LoginDataType));
@@ -44,6 +44,9 @@ function Profile() {
         }
     }, [dispatch, userId])
 
+    if(!userId){
+        return <Redirect to={`/profile/${loginData.id}`}/>;
+    }
 
     if (!isAuth || !playerData.id || !playersData.length) {
         return (
@@ -54,6 +57,13 @@ function Profile() {
         )
     }
 
+    const follow = () => {
+        dispatch(followThunkCreator(+userId))
+    }
+    const unfollow = () => {
+        dispatch(unFollowThunkCreator(+userId))
+    }
+
 
     return (
         <section className={style.profile}>
@@ -62,21 +72,30 @@ function Profile() {
                 <div className={style.avatar_info_wrapper}>
                     <div
                         style={{
-                            background: `url('${'data:image/png;base64,' + playerData.photo}') no-repeat center center`,
+                            background: `url('${playerData.photo}') no-repeat center center`,
                             backgroundSize: 'cover'
                         }}
                         className={style.avatar}
                     />
 
                     {
-                        loginData.id!==+userId ?
+                        loginData.id !== +userId ?
                             <>
                                 <div className={style.write_msg_btn_wrapper}>
                                     <button className={style.write_msg_btn}>Write message</button>
                                 </div>
-                                <div className={style.add_friend_btn_wrapper}>
-                                    <button className={style.add_friend_btn}>Follow</button>
-                                </div>
+
+                                {
+                                    playersData.find((el) => el.id === +userId)!.isFollowed ?
+                                        <div className={style.add_friend_btn_wrapper}>
+                                            <button onClick={unfollow} className={style.unfollow_button}>Unfollow</button>
+                                        </div>
+                                        :
+                                        <div className={style.add_friend_btn_wrapper}>
+                                            <button onClick={follow} className={style.add_friend_btn}>Follow</button>
+                                        </div>
+                                }
+
                             </>
                             :
                             <div className={style.add_friend_btn_wrapper}>
@@ -92,14 +111,17 @@ function Profile() {
 
                 <div className={style.friend_block}>
                     <div className={style.block_title}>
-                        <div className={style.block_title_name}>
-                            Friends
-                        </div>
-                        <div className={style.block_friends_count}>
-                            {friendsData.length}
-                        </div>
+                        <NavLink to={`/friends/${userId}`} className={style.block_title_name}>
+                            <div className={style.block_title_name}>
+                                Friends
+                            </div>
+                        </NavLink>
+                        <NavLink to={`/friends/${userId}`} className={style.block_title_name}>
+                            <div className={style.block_friends_count}>
+                                {friendsData.length}
+                            </div>
+                        </NavLink>
                     </div>
-
                     <div className={style.block_friends_list}>
 
 
@@ -107,49 +129,61 @@ function Profile() {
                             {
                                 friendsData[0] &&
                                 <div className={style.friend_item_wrapper}>
-                                    <div
-                                        style={{
-                                            background: `url('${kirill}') no-repeat center center`,
-                                            backgroundSize: 'cover'
-                                        }}
-                                        className={style.friend_item_avatar}>
-                                    </div>
+                                    <NavLink to={`/profile/${friendsData[0].id}`} className={style.friend_item_avatar}>
+                                        <div
+                                            style={{
+                                                background: `url('${friendsData[0].photo}') no-repeat center center`,
+                                                backgroundSize: 'cover'
+                                            }}
+                                            className={style.friend_item_avatar}>
+                                        </div>
+                                    </NavLink>
 
-                                    <div className={style.friend_item_name}>
-                                        Kirill
-                                    </div>
+                                    <NavLink to={`/profile/${friendsData[0].id}`} className={style.friend_item_name}>
+                                        <div className={style.friend_item_name}>
+                                            {friendsData[0].name}
+                                        </div>
+                                    </NavLink>
                                 </div>
                             }
                             {
                                 friendsData[1] &&
                                 <div className={style.friend_item_wrapper}>
-                                    <div
-                                        style={{
-                                            background: `url('${kirill}') no-repeat center center`,
-                                            backgroundSize: 'cover'
-                                        }}
-                                        className={style.friend_item_avatar}>
-                                    </div>
+                                    <NavLink to={`/profile/${friendsData[1].id}`} className={style.friend_item_avatar}>
+                                        <div
+                                            style={{
+                                                background: `url('${friendsData[1].photo}') no-repeat center center`,
+                                                backgroundSize: 'cover'
+                                            }}
+                                            className={style.friend_item_avatar}>
+                                        </div>
+                                    </NavLink>
 
-                                    <div className={style.friend_item_name}>
-                                        Kirill
-                                    </div>
+                                    <NavLink to={`/profile/${friendsData[1].id}`} className={style.friend_item_name}>
+                                        <div className={style.friend_item_name}>
+                                            {friendsData[1].name}
+                                        </div>
+                                    </NavLink>
                                 </div>
                             }
                             {
                                 friendsData[2] &&
                                 <div className={style.friend_item_wrapper}>
-                                    <div
-                                        style={{
-                                            background: `url('${kirill}') no-repeat center center`,
-                                            backgroundSize: 'cover'
-                                        }}
-                                        className={style.friend_item_avatar}>
-                                    </div>
+                                    <NavLink to={`/profile/${friendsData[2].id}`} className={style.friend_item_avatar}>
+                                        <div
+                                            style={{
+                                                background: `url('${friendsData[2].photo}') no-repeat center center`,
+                                                backgroundSize: 'cover'
+                                            }}
+                                            className={style.friend_item_avatar}>
+                                        </div>
+                                    </NavLink>
 
-                                    <div className={style.friend_item_name}>
-                                        Kirill
-                                    </div>
+                                    <NavLink to={`/profile/${friendsData[2].id}`} className={style.friend_item_name}>
+                                        <div className={style.friend_item_name}>
+                                            {friendsData[2].name}
+                                        </div>
+                                    </NavLink>
                                 </div>
                             }
                         </div>
@@ -160,50 +194,61 @@ function Profile() {
                             {
                                 friendsData[3] &&
                                 <div className={style.friend_item_wrapper}>
-                                    <div
-                                        style={{
-                                            background: `url('${a2}') no-repeat center center`,
-                                            backgroundSize: 'cover'
-                                        }}
-                                        className={style.friend_item_avatar}>
-                                    </div>
+                                    <NavLink to={`/profile/${friendsData[3].id}`} className={style.friend_item_avatar}>
+                                        <div
+                                            style={{
+                                                background: `url('${friendsData[3].photo}') no-repeat center center`,
+                                                backgroundSize: 'cover'
+                                            }}
+                                            className={style.friend_item_avatar}>
+                                        </div>
+                                    </NavLink>
 
-                                    <div className={style.friend_item_name}>
-                                        Vera
-                                    </div>
+                                    <NavLink to={`/profile/${friendsData[3].id}`} className={style.friend_item_name}>
+                                        <div className={style.friend_item_name}>
+                                            {friendsData[3].name}
+                                        </div>
+                                    </NavLink>
                                 </div>
                             }
                             {
                                 friendsData[4] &&
                                 <div className={style.friend_item_wrapper}>
-                                    <div
-                                        style={{
-                                            background: `url('${a2}') no-repeat center center`,
-                                            backgroundSize: 'cover'
-                                        }}
-                                        className={style.friend_item_avatar}>
-                                    </div>
+                                    <NavLink to={`/profile/${friendsData[4].id}`} className={style.friend_item_avatar}>
+                                        <div
+                                            style={{
+                                                background: `url('${friendsData[4].photo}') no-repeat center center`,
+                                                backgroundSize: 'cover'
+                                            }}
+                                            className={style.friend_item_avatar}>
+                                        </div>
+                                    </NavLink>
 
-                                    <div className={style.friend_item_name}>
-                                        Vera
-                                    </div>
+                                    <NavLink to={`/profile/${friendsData[4].id}`} className={style.friend_item_name}>
+                                        <div className={style.friend_item_name}>
+                                            {friendsData[4].name}
+                                        </div>
+                                    </NavLink>
                                 </div>
                             }
 
                             {
                                 friendsData[5] &&
                                 <div className={style.friend_item_wrapper}>
-                                    <div
-                                        style={{
-                                            background: `url('${a2}') no-repeat center center`,
-                                            backgroundSize: 'cover'
-                                        }}
-                                        className={style.friend_item_avatar}>
-                                    </div>
-
-                                    <div className={style.friend_item_name}>
-                                        Vera
-                                    </div>
+                                    <NavLink to={`/profile/${friendsData[5].id}`} className={style.friend_item_avatar}>
+                                        <div
+                                            style={{
+                                                background: `url('${friendsData[5].photo}') no-repeat center center`,
+                                                backgroundSize: 'cover'
+                                            }}
+                                            className={style.friend_item_avatar}>
+                                        </div>
+                                    </NavLink>
+                                    <NavLink to={`/profile/${friendsData[5].id}`} className={style.friend_item_name}>
+                                        <div className={style.friend_item_name}>
+                                            {friendsData[5].name}
+                                        </div>
+                                    </NavLink>
                                 </div>
                             }
 

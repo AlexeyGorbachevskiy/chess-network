@@ -42,7 +42,7 @@ function Player(props: PlayerPropsType) {
                             <NavLink to={`/profile/${props.id}`}>
                                 <div className={style.player_avatar__online}
                                      style={{
-                                         background: `url('${'data:image/png;base64,' + props.photo!}') no-repeat center center`,
+                                         background: `url('${props.photo!}') no-repeat center center`,
                                          backgroundSize: 'cover'
                                      }}
                                 />
@@ -51,7 +51,7 @@ function Player(props: PlayerPropsType) {
                             <NavLink to={`/profile/${props.id}`}>
                                 <div className={style.player_avatar}
                                      style={{
-                                         background: `url('${'data:image/png;base64,' + props.photo!}') no-repeat center center`,
+                                         background: `url('${props.photo!}') no-repeat center center`,
                                          backgroundSize: 'cover'
                                      }}
                                 />

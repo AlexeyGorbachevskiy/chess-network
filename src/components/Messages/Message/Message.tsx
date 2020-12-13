@@ -1,7 +1,9 @@
 import React from 'react';
+import {compose} from 'redux';
 import style from './Message.module.css';
 import avatar from "../../../images/profile/harik.jpg";
 import {NavLink} from "react-router-dom";
+import {withAuthRedirect} from "../../../utilities/hoc/withAuthRedirect";
 
 
 function Message() {
@@ -12,11 +14,11 @@ function Message() {
                 <div className={style.message_info_wrapper}>
 
                     <div className={style.player_avatar}
-                        style={{
-                        background: `url('${avatar}') no-repeat center center`,
-                        backgroundSize: 'cover'
-                    }}
-                        />
+                         style={{
+                             background: `url('${avatar}') no-repeat center center`,
+                             backgroundSize: 'cover'
+                         }}
+                    />
 
                     <div className={style.message_info}>
                         <p className={style.player_fullName}>Harik Harlamov</p>
@@ -29,7 +31,7 @@ function Message() {
     );
 }
 
-export default Message;
-// export default compose(
-//     withAuthRedirect,
-// )(FullNewComment)
+
+export default compose(
+    withAuthRedirect,
+)(Message)

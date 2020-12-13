@@ -1,6 +1,6 @@
 import axios from "axios";
 import {UsersArrayType} from "../redux/friendsReducer";
-import {ProfileType} from "../redux/profileReducer";
+import {EditProfileType, ProfileType} from "../redux/profileReducer";
 
 
 const axiosInstance = axios.create(
@@ -43,6 +43,11 @@ export const friendsAPI = {
     getFriends() {
         return (
             axiosInstance.get(`api/profile/friends`)
+        )
+    },
+    getFriendsById(userId: number | null) {
+        return (
+            axiosInstance.get(`api/profile/friends/${userId}`)
         )
     },
     follow(userId: number) {
@@ -124,6 +129,9 @@ export const profileAPI = {
             axiosInstance.delete(`api/post/${postId}/`)
         )
     },
+    editProfile(editedData: EditProfileType){
+        axiosInstance.post(`api/profile/edit/`, editedData)
+    }
 }
 
 
@@ -186,6 +194,11 @@ export const newsAPI = {
     addNewComment(newId: number, text: string) {
         return (
             axiosInstance.post(`api/comments/${newId}/add`, {text})
+        )
+    },
+    deleteComment(newId: number) {
+        return (
+            axiosInstance.delete(`api/comments/${newId}/delete`)
         )
     },
 

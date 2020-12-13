@@ -217,7 +217,7 @@ export const unFollowThunkCreator = (userId: number)
 }
 
 
-export const getFriendsThunkCreator = (userId: number | null)
+export const getFriendsThunkCreator = ()
     : ThunkAction<void, RootState, unknown, FriendsReducerActionTypes | SetPlayersACType> => {
     return (
         async (dispatch, getState) => {
@@ -225,6 +225,25 @@ export const getFriendsThunkCreator = (userId: number | null)
 
             try {
                 const friends = await friendsAPI.getFriends();
+                console.log(friends)
+                dispatch(setFriendsDataAC(friends.data))
+                dispatch(setPreloaderAC(false));
+
+            } catch (error) {
+                dispatch(setPreloaderAC(false));
+            }
+        }
+    )
+}
+
+export const getFriendsByIdThunkCreator = (userId: number | null)
+    : ThunkAction<void, RootState, unknown, FriendsReducerActionTypes | SetPlayersACType> => {
+    return (
+        async (dispatch, getState) => {
+            dispatch(setPreloaderAC(true));
+
+            try {
+                const friends = await friendsAPI.getFriendsById(userId);
                 console.log(friends)
                 dispatch(setFriendsDataAC(friends.data))
                 dispatch(setPreloaderAC(false));

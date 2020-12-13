@@ -97,6 +97,30 @@
     padding: 9px 16px 7px;
 }
 
+.unfollow_button {
+    opacity: .20;
+    cursor: pointer;
+    border-radius: 4px;
+    padding-left: 2px;
+    padding-right: 2px;
+    height: 30px;
+    width: 162px;
+    border: 0;
+    outline: none;
+    color: #fff;
+    font-family: Arial, Georgia, sans-serif;
+    font-size: 12.5px;
+    background-color: red;
+}
+
+.unfollow_button:hover {
+    opacity: 1;
+}
+
+.unfollow_button:active {
+    padding: 8px 16px 7px;
+}
+
 .friend_block{
     margin-top: 15px;
     width: 100%;
@@ -127,6 +151,7 @@
 }
 
 .block_title_name{
+    text-decoration: none;
     cursor: pointer;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -136,6 +161,7 @@
     font-size: 12.5px;
     letter-spacing: 0;
     font-family: Arial,Georgia, sans-serif;
+    color: black;
 }
 
 
@@ -179,6 +205,7 @@
 }
 
 .friend_item_name{
+    text-decoration: none;
     font-family: Arial, Georgia, sans-serif;
     cursor: pointer;
     color:#2a5885;

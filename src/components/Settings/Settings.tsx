@@ -1,11 +1,18 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import style from './Settings.module.css';
 import {compose} from "redux";
 import {withAuthRedirect} from "../../utilities/hoc/withAuthRedirect";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../redux/redux-store";
+import {LoginDataType} from "../../redux/authReducer";
+import {editProfileThunkCreator} from "../../redux/profileReducer";
 
 
 function Settings() {
 
+    const loginData = useSelector<RootState, LoginDataType>(state => state.auth.data);
+
+    const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [birthday, setBirthday] = useState('');
@@ -18,6 +25,22 @@ function Settings() {
     const [hobbies, setHobbies] = useState('');
     const [photo, setPhoto] = useState<any>('');
 
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        setEmail(loginData.email!)
+        setFirstName(loginData.name!);
+        setLastName(loginData.surname!);
+        setBirthday(loginData.birthday!);
+        setCity(loginData.current_city!);
+        setCountry(loginData.current_country!);
+        setStudiedAt(loginData.study_place!);
+        setChessLevel(loginData.chess_level!);
+        setFideRating(loginData.fide_rating!.toString());
+        setAboutMe(loginData.about!);
+        setHobbies(loginData.hobbies!);
+    }, [loginData])
 
     const resetPhoto = () => {
         const file: any = document.querySelector('#photo');
@@ -48,7 +71,19 @@ function Settings() {
 
     }
     const saveData = () => {
-        console.log(photo)
+        dispatch(editProfileThunkCreator({
+            name: firstName,
+            surname: lastName,
+            photo: photo,
+            birthday: birthday,
+            current_city: city,
+            current_country: country,
+            study_place: studiedAt,
+            chess_level: chessLevel,
+            fide_rating: fideRating,
+            about: aboutMe,
+            hobbies: hobbies
+        }))
     }
 
     return (
@@ -64,7 +99,7 @@ function Settings() {
                             <p className={style.field_name}>Email:</p>
                         </div>
                         <div className={style.input_wrapper}>
-                            <input style={{color: '#939393'}} value={'Some value'} disabled className={style.input}
+                            <input value={email} style={{color: '#939393'}} disabled className={style.input}
                                    type="text"/>
                         </div>
                     </div>
