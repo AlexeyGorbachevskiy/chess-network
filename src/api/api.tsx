@@ -85,9 +85,9 @@ type GetProfileResponseType = {
 
 }
 export const profileAPI = {
-    getProfileInfo(userId: string) {
+    getProfileInfo(userId: number) {
         return (
-            axiosInstance.get<GetProfileResponseType>(`profile/${userId}`)
+            axiosInstance.get(`api/profile/${userId}`)
         )
     },
     getStatus(userId: number) {
@@ -205,3 +205,13 @@ export const newsAPI = {
 }
 
 
+export const messagesAPI = {
+
+    getALlDialogs() {
+        return (
+            axiosInstance.get(`api/dialogs/all`)
+        )
+    },
+
+
+}

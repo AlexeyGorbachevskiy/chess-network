@@ -7,11 +7,11 @@
 .notYourMessage {
     padding: 6px 30px 7px 0;
     margin-bottom: 4px;
+    display: flex;
 }
 .message_info_wrapper {
     display: flex;
-    width: 300px;
-
+    width: 100%;
 }
 
 .player_avatar {
@@ -23,7 +23,6 @@
     border-radius: 50%;
 }
 
-
 .message_info {
     display: flex;
     flex-direction: column;
@@ -32,8 +31,16 @@
     border: 0;
 }
 
-.player_fullName {
+.message_title_wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 7px;
+}
+
+.player_fullName {
+    /*margin-bottom: 7px;*/
     cursor: pointer;
     color: #2a5885;
     font-weight: 700;
@@ -44,6 +51,16 @@
 
 .player_fullName:hover {
     text-decoration: underline;
+}
+
+.date{
+    text-decoration: none;
+    margin-left: 10px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.4;
+    color: rgba(119,126,140,.6);
+    font-family: Arial, Georgiam sans-serif;
 }
 
 .player_message {

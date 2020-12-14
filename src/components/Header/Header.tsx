@@ -1,11 +1,9 @@
 import {NavLink} from "react-router-dom";
-import React, {useEffect, useRef} from "react";
+import React from "react";
 import obj from './Header.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/redux-store";
 import {LoginDataType, logoutThunkCreator} from "../../redux/authReducer";
-import {useParams} from "react-router";
-
 
 
 export function Header() {
@@ -34,6 +32,7 @@ export function Header() {
                     <NavLink activeClassName={obj.link__active} className={obj.link} to='/news'>News</NavLink>
                     <NavLink activeClassName={obj.link__active} className={obj.link} to='/play-chess'>Play</NavLink>
                     <NavLink activeClassName={obj.link__active} className={obj.link} to='/settings'>Settings</NavLink>
+                    <NavLink activeClassName={obj.link__active} className={obj.link} to='/register'>Register</NavLink>
                         {
                             isAuth
                                 ?

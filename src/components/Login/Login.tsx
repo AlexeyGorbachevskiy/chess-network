@@ -12,6 +12,9 @@ export function Login() {
     const dispatch = useDispatch();
 
     const login=()=>{
+        if(email.trim().length===0 || password.trim().length===0){
+            return
+        }
         dispatch(loginThunkCreator(email,password))
     }
 

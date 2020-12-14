@@ -53,7 +53,7 @@ export function App() {
             <Route exact path='/news' render={() => <News/>}/>
             <Route path='/news/:newId' render={() => <FullNew/>}/>
             <Route exact path='/messages' render={() => <Messages/>}/>
-            <Route path='/messageBody/:id' render={() => <MessageBody/>}/>
+            <Route path='/messageBody/:userId' render={() => <MessageBody/>}/>
             <Route path='/settings' render={() => <Settings/>}/>
 
         </div>

@@ -22,19 +22,24 @@ export type PhotosType = {
     large: string | null
 }
 export type ProfileType = {
-    userId: number
-    lookingForAJob: boolean
-    lookingForAJobDescription: string
-    aboutMe: string
-    fullName: string
-    contacts: ContactsType
-    photos: PhotosType
+    name: string
+    surname: string
+    photo: string
+    birthday: string
+    current_city: string
+    current_country: string
+    study_place: string
+    chess_level: string
+    fide_rating: number
+    about: string
+    hobbies: string
+    online: boolean
 }
 
 let initialState = {
     postsData: [] as Array<PostsDataType>,
     newPostText: '' as string,
-    profile: null as ProfileType | any,
+    profile: {} as ProfileType | any,
     status: '' as string,
     isProfileEdited: false
 }
@@ -153,17 +158,17 @@ export const deletePostActionCreator = (postId: number): DeletePostACType => ({t
 
 export const setUserProfileAC = (profile: any): SetUserProfileACType => ({type: SET_USER_PROFILE, profile});
 
-export const getProfileInfoThunkCreator = (userId: string)
-    : ThunkAction<void, RootState, unknown, ProfileReducerActionTypes> => {
-    return (
-        (dispatch, getState) => {
-            profileAPI.getProfileInfo(userId)
-                .then(response => {
-                    dispatch(setUserProfileAC(response.data));
-                })
-        }
-    )
-}
+// export const getProfileInfoThunkCreator = (userId: string)
+//     : ThunkAction<void, RootState, unknown, ProfileReducerActionTypes> => {
+//     return (
+//         (dispatch, getState) => {
+//             profileAPI.getProfileInfo(userId)
+//                 .then(response => {
+//                     dispatch(setUserProfileAC(response.data));
+//                 })
+//         }
+//     )
+// }
 
 export const setStatusAC = (status: string): SetStatusACType => ({type: SET_STATUS, status});
 
@@ -217,23 +222,23 @@ export const savePhotoThunkCreator = (file: any)
     )
 }
 
-export const saveProfileThunkCreator = (formData: ProfileType)
-    : ThunkAction<void, RootState, unknown, ProfileReducerActionTypes> => {
-    return (
-        async (dispatch, getState) => {
-            const userId = getState().auth.data.id;
-            let response = await profileAPI.saveProfile(formData)
-
-            if (response.data.resultCode === 0) {
-                userId && dispatch(getProfileInfoThunkCreator(userId.toString()))
-            } else {
-                const action = stopSubmit('profileSettings', {_error: response.data.messages[0]});
-                dispatch<any>(action)
-                return Promise.reject(response.data.messages[0])
-            }
-        }
-    )
-}
+// export const saveProfileThunkCreator = (formData: ProfileType)
+//     : ThunkAction<void, RootState, unknown, ProfileReducerActionTypes> => {
+//     return (
+//         async (dispatch, getState) => {
+//             const userId = getState().auth.data.id;
+//             let response = await profileAPI.saveProfile(formData)
+//
+//             if (response.data.resultCode === 0) {
+//                 userId && dispatch(getProfileInfoThunkCreator(userId.toString()))
+//             } else {
+//                 const action = stopSubmit('profileSettings', {_error: response.data.messages[0]});
+//                 dispatch<any>(action)
+//                 return Promise.reject(response.data.messages[0])
+//             }
+//         }
+//     )
+// }
 
 
 export const getPostsThunkCreator = (userId: string | null)
@@ -336,6 +341,20 @@ export const editProfileThunkCreator = (editedData: EditProfileType)
             }
 
 
+        }
+    )
+}
+
+
+export const getProfileInfoByIdThunkCreator = (userId: number)
+    : ThunkAction<void, RootState, unknown, ProfileReducerActionTypes> => {
+    return (
+        (dispatch, getState) => {
+            profileAPI.getProfileInfo(userId)
+                .then(response => {
+                    dispatch(setUserProfileAC(response.data));
+                    console.log(response.data)
+                })
         }
     )
 }
