@@ -8,7 +8,6 @@ import {RootState} from "../../../redux/redux-store";
 import {LoginDataType} from "../../../redux/authReducer";
 import Preloader from "../../Common/preloader/Preloader";
 import {useParams} from "react-router";
-import {getProfileInfoByIdThunkCreator, ProfileType} from "../../../redux/profileReducer";
 import {getPlayerThunkCreator} from "../../../redux/playersReducer";
 
 
@@ -158,7 +157,7 @@ function MessageBody() {
                         })
                     }
                     {
-                        messages.length === 0 &&
+                        !dialogId &&
                         <div className="App"
                              style={{
                                  position: 'absolute',

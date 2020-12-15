@@ -58,12 +58,14 @@ function Friend(props: FriendPropsType) {
                             {props.name + ' ' + props.surname}
                         </NavLink>
                         <p className={style.player_location}>{props.city + ', ' + props.country}</p>
-                        <p className={style.write_message_link}>Write message</p>
+                        <NavLink className={style.write_message_link} to={`/messageBody/${props.friendId}`}>
+                            <p className={style.write_message_link}>Write message</p>
+                        </NavLink>
                     </div>
 
                 </div>
                 {
-                    (props.loggedUserId === +userId || !userId )   &&
+                    (props.loggedUserId === +userId || !userId) &&
                     <div className={style.buttons_wrapper}>
                         <button onClick={unfollow} className={style.button}>Unfollow</button>
                     </div>

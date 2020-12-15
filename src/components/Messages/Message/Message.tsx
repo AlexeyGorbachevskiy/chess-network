@@ -6,6 +6,9 @@ import {withAuthRedirect} from "../../../utilities/hoc/withAuthRedirect";
 
 
 type MessagePropsType = {
+    loggedUserId: number
+    lastMessageUserId: number
+    lastMessageUserPhoto: string
     dialogId: number
     name: string
     surname: string
@@ -15,6 +18,7 @@ type MessagePropsType = {
 }
 
 function Message(props: MessagePropsType) {
+
 
     return (
         <NavLink className={style.message} to={`/messageBody/${props.anotherUserId}`}>
@@ -29,8 +33,24 @@ function Message(props: MessagePropsType) {
                     />
 
                     <div className={style.message_info}>
-                        <p className={style.player_fullName}>{props.name+' '+ props.surname}</p>
-                        <p className={style.player_last_message}>{props.text}</p>
+                        <p className={style.player_fullName}>{props.name + ' ' + props.surname}</p>
+
+                        <div className={style.message_content_wrapper}>
+
+                            {
+                                props.loggedUserId===props.lastMessageUserId &&
+                                <div className={style.player_avatar_mini}
+                                     style={{
+                                         background: `url('${props.lastMessageUserPhoto}') no-repeat center center`,
+                                         backgroundSize: 'cover'
+                                     }}
+                                />
+                            }
+
+
+                            <p className={style.player_last_message}>{props.text}</p>
+                        </div>
+
                     </div>
 
                 </div>

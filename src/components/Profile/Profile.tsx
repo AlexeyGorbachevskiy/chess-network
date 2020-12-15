@@ -44,7 +44,7 @@ function Profile() {
         }
     }, [dispatch, userId])
 
-    if(!userId){
+    if (!userId) {
         return <Redirect to={`/profile/${loginData.id}`}/>;
     }
 
@@ -82,13 +82,16 @@ function Profile() {
                         loginData.id !== +userId ?
                             <>
                                 <div className={style.write_msg_btn_wrapper}>
-                                    <button className={style.write_msg_btn}>Write message</button>
+                                    <NavLink className={style.write_message_link} to={`/messageBody/${userId}`}>
+                                        <button className={style.write_msg_btn}>Write message</button>
+                                    </NavLink>
                                 </div>
 
                                 {
                                     playersData.find((el) => el.id === +userId)!.isFollowed ?
                                         <div className={style.add_friend_btn_wrapper}>
-                                            <button onClick={unfollow} className={style.unfollow_button}>Unfollow</button>
+                                            <button onClick={unfollow} className={style.unfollow_button}>Unfollow
+                                            </button>
                                         </div>
                                         :
                                         <div className={style.add_friend_btn_wrapper}>

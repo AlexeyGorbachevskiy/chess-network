@@ -36,7 +36,6 @@ function Player(props: PlayerPropsType) {
                 <div className={style.player_info_wrapper}>
 
 
-
                     {
                         props.online ?
                             <NavLink to={`/profile/${props.id}`}>
@@ -69,14 +68,17 @@ function Player(props: PlayerPropsType) {
 
                 </div>
                 <div className={style.buttons_wrapper}>
-                    <button onClick={props.isFollowed ? unfollow : follow} className={props.isFollowed ? style.unfollow_button : style.button }>
+                    <button onClick={props.isFollowed ? unfollow : follow}
+                            className={props.isFollowed ? style.unfollow_button : style.button}>
                         {
                             props.isFollowed ?
-                                'Unfollow':
+                                'Unfollow' :
                                 'Follow'
                         }
                     </button>
-                    <button className={style.button}>Write message</button>
+                    <NavLink to={`/messageBody/${props.id}`}>
+                        <button className={style.button}>Write message</button>
+                    </NavLink>
                 </div>
             </div>
         </div>

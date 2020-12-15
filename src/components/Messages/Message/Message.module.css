@@ -45,6 +45,15 @@
     border-radius: 50%;
 }
 
+.player_avatar_mini{
+    margin: 0 14px 0 0;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    /*background-size: contain;*/
+    border-radius: 50%;
+}
+
 
 .message_info {
     display: flex;
@@ -62,6 +71,12 @@
     -webkit-font-smoothing: antialiased;
     font-size: 13px;
     text-decoration: none !important;
+}
+
+.message_content_wrapper{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 /*.player_fullName:hover {*/

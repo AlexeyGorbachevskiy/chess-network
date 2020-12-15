@@ -44,6 +44,10 @@ export type DialogsDataType = {
     another_user_name: string
     another_user_surname: string
     another_user_photo: string
+    last_message_user_id: number
+    last_message_user_name: string
+    last_message_user_surname: string
+    last_message_user_photo: string
     last_message: string
     time: string
 
